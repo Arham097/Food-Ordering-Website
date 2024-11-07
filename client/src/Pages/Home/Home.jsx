@@ -5,7 +5,7 @@ import ExploreMenu from "./ExploreMenu";
 
 const Home = () => {
   return (
-    <main className="w-screen min-h-screen bg-slate-800">
+    <main className="w-screen min-h-screen bg-slate-800  ">
       <section className="w-screen sm:h-[85vh] md:h-screen bg-slate-800 border-b-2 border-slate-600">
         <LeftPortion />
         <Rightportion />

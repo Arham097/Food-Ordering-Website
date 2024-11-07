@@ -53,7 +53,7 @@ const Rightportion = () => {
             {avatars.map((avatar, index) => (
               <div
                 key={avatar.id}
-                className={`relative w-10 h-10 rounded-full overflow-hidden border-2 border-white `}
+                className={`relative w-10 h-10 rounded-full overflow-hidden border border-white `}
               >
                 <img
                   src={avatar.src}
@@ -62,7 +62,7 @@ const Rightportion = () => {
                 />
               </div>
             ))}
-            <div className="w-10 h-10 flex items-center justify-center bg-orange-600 border-2 text-white text-sm rounded-full">
+            <div className="w-10 h-10 flex items-center justify-center bg-orange-600 border text-white text-sm rounded-full">
               30+
             </div>
           </div>

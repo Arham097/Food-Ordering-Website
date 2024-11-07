@@ -13,16 +13,45 @@ import {
   Typography,
 } from "@mui/material";
 import gsap from "gsap";
-import React, { useRef, useState } from "react";
-
+import React, { useEffect, useRef, useState } from "react";
+import axiosInstance from "../../Config/axios";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const ExploreMenu = () => {
   const [category, setCategory] = useState("Pizzas");
-
+  const [burgerCards, setBurgerCards] = useState([]);
+  const [pizzaCards, setPizzaCards] = useState([]);
+  const [drinkCards, setDrinkCards] = useState([]);
+  const [chickenCards, setChickenCards] = useState([]);
+  const [categoryCard, setCategoryCard] = useState([]);
+  const categoryItemsContaner = useRef(null);
   const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    getItems();
+  }, []);
+
+  const getItems = async () => {
+    try {
+      const burgers = await axiosInstance.get("/items/burgers");
+      const pizzas = await axiosInstance.get("/items/pizzas");
+      const drinks = await axiosInstance.get("/items/drinks");
+      const chickens = await axiosInstance.get("/items/chickens");
+      setBurgerCards(burgers?.data?.data?.burgers);
+      setPizzaCards(pizzas?.data?.data?.pizzas);
+      setDrinkCards(drinks?.data?.data?.drinks);
+      setChickenCards(chickens?.data?.data?.chicken);
+      setCategoryCard(pizzas?.data?.data?.pizzas);
+      console.log(burgers?.data?.data);
+      console.log(pizzas?.data?.data);
+      console.log(drinks?.data?.data);
+      console.log(chickens?.data?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   console.log(category);
   const arr = [
@@ -51,144 +80,6 @@ const ExploreMenu = () => {
       title: "Chicken",
     },
   ];
-  const burgerCards = [
-    {
-      image: "./Burgers/burger1.jpg",
-      price: "$8.99",
-      name: "Classic Burger",
-      description:
-        "A classic beef burger with lettuce, tomato, and cheese, served with fries.",
-    },
-    {
-      image: "./Burgers/burger2.webp",
-      price: "$9.99",
-      name: "Cheese Burger",
-      description:
-        "Juicy beef patty topped with melted cheddar cheese, pickles, and onions.",
-    },
-    {
-      image: "./Burgers/burger3.avif",
-      price: "$8.49",
-      name: "Chicken Burger",
-      description:
-        "Grilled chicken breast with lettuce, tomato, and mayo on a toasted bun.",
-    },
-    {
-      image: "./Burgers/burger4.webp",
-      price: "$7.99",
-      name: "Veggie Burger",
-      description:
-        "A delicious meat-free patty with fresh vegetables and vegan mayo.",
-    },
-    {
-      image: "./Burgers/burger5.webp",
-      price: "$9.49",
-      name: "Spicy Jalapeño Burger",
-      description:
-        "A spicy kick with jalapeños, pepper jack cheese, and chipotle mayo.",
-    },
-  ];
-  const pizzaCards = [
-    {
-      image: "./Pizzas/fajita.jpg",
-      price: "$11.99",
-      name: "Fajita Pizza",
-      description:
-        "A spicy twist with Mexican flavors, topped with grilled fajita chicken or beef, bell peppers, onions, and jalapeños.",
-    },
-    {
-      image: "./Pizzas/pepperoni.jpg",
-      price: "$10.99",
-      name: "Pepperoni Pizza",
-      description:
-        "A classic pizza with thin slices of spicy pepperoni, mozzarella cheese, and a rich tomato sauce.",
-    },
-    {
-      image: "./Pizzas/phantom.webp",
-      price: "$13.49",
-      name: "Phantom Pizza",
-      description:
-        "A unique specialty pizza with mushrooms, olives, chicken, and a bold, savory sauce.",
-    },
-    {
-      image: "./Pizzas/bbq.jpg",
-      price: "$12.49",
-      name: "BBQ Pizza",
-      description:
-        "Sweet and smoky barbecue sauce with grilled chicken or beef, red onions, and mozzarella cheese.",
-    },
-    // {
-    //   image: "./Pizzas/malai-boti.jpg",
-    //   price: "$12.99",
-    //   name: "Malai Boti Pizza",
-    //   description:
-    //     "A Pakistani-inspired pizza with creamy malai boti chicken, onions, green peppers, and mozzarella cheese.",
-    // },
-  ];
-  const drinkCards = [
-    {
-      image: "./Drinks/cola-next.webp",
-      price: "$1.49",
-      name: "Cola Next",
-      description:
-        "A refreshing cola drink with a bold, crisp flavor, perfect for quenching your thirst.",
-    },
-    {
-      image: "./Drinks/pakola.webp",
-      price: "$1.29",
-      name: "Pakola",
-      description:
-        "A unique, creamy soda with a rich flavor, an iconic taste of Pakistan for generations.",
-    },
-    {
-      image: "./Drinks/buzz-up.webp",
-      price: "$1.39",
-      name: "Buzz Up",
-      description:
-        "A lemon-lime flavored soda that offers a tangy, refreshing kick, ideal for hot days.",
-    },
-    {
-      image: "./Drinks/pakola-mineral-water.webp", // Update with the correct image path
-      price: "$1.19", // Set a new price for mineral water
-      name: "Pakola Mineral Water",
-      description:
-        "Pure and refreshing mineral water, perfect for hydration anytime, anywhere.",
-    },
-  ];
-  const chickenCards = [
-    {
-      image: "./Chicken/single-chicken-piece.jpg", // Path to the image for a single chicken
-      price: "$5.99", // Price for a single chicken
-      name: "Single Chicken",
-      description:
-        "A delicious, juicy single piece of fried chicken, seasoned to perfection.",
-    },
-    {
-      image: "./Chicken/double-chicken-pieces.jpg", // Path to the image for double chicken
-      price: "$10.99", // Price for double chicken
-      name: "Double Chicken",
-      description:
-        "Two pieces of our crispy fried chicken, perfect for a satisfying meal.",
-    },
-    {
-      image: "./Chicken/three-chicken-pieces.jpg", // Path to the image for three pieces of chicken
-      price: "$14.99", // Price for three pieces of chicken
-      name: "Three-Piece Chicken",
-      description:
-        "Three pieces of our tender fried chicken, served with your choice of sides.",
-    },
-    {
-      image: "./Chicken/bucket-chicken.avif", // Path to the image for a bucket of chicken
-      price: "$24.99", // Price for a bucket of chicken
-      name: "Bucket of Chicken",
-      description:
-        "A bucket filled with our delicious fried chicken, perfect for sharing with family and friends.",
-    },
-  ];
-
-  const [categoryCard, setCategoryCard] = useState(pizzaCards);
-  const categoryContainer = useRef(null);
-  const categoryItemsContaner = useRef(null);
 
   const handleCategory = (category, index) => {
     setCategory(category);
@@ -211,22 +102,6 @@ const ExploreMenu = () => {
     }
   };
   useGSAP(() => {
-    const children = gsap.utils.toArray(categoryContainer.current.children);
-    gsap.from(children, {
-      opacity: 0,
-      stagger: 0.3,
-      duration: 2,
-      y: 250,
-      ease: "power4.out",
-      scrollTrigger: {
-        trigger: categoryContainer.current,
-        start: "top 80%",
-        toggleActions: "play none none reverse",
-        markers: true,
-      },
-    });
-  }, []);
-  useGSAP(() => {
     const children = gsap.utils.toArray(categoryItemsContaner.current.children);
     gsap.from(children, {
       opacity: 0,
@@ -241,10 +116,7 @@ const ExploreMenu = () => {
       <h1 className="max-sm:text-2xl sm:text-3xl md:text-4xl font-semibold  text-center text-white">
         Tasty Meals at Reasonable Prices
       </h1>
-      <div
-        className="w-full h-32 grid grid-cols-4 pl-10"
-        ref={categoryContainer}
-      >
+      <div className="w-full h-32 grid grid-cols-4 pl-10">
         {arr.map((item, index) => {
           return (
             <div
@@ -270,7 +142,7 @@ const ExploreMenu = () => {
         className="w-full min-h-96  grid max-sm:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 px-[4%] max-sm:ml-[5%]"
         ref={categoryItemsContaner}
       >
-        {categoryCard.map((burger, index) => {
+        {categoryCard.map((item, index) => {
           return (
             <Card
               sx={{
@@ -284,7 +156,7 @@ const ExploreMenu = () => {
             >
               <CardActionArea>
                 <div className="w-full bg-slate-200 h-72">
-                  <img src={burger.image} alt="" className="w-full h-full " />
+                  <img src={item.image} alt="" className="w-full h-full " />
                 </div>
                 <CardContent>
                   <Typography
@@ -293,10 +165,10 @@ const ExploreMenu = () => {
                     component="div"
                     fontWeight="bold"
                   >
-                    {burger.name}
+                    {item.name}
                   </Typography>
                   <Typography variant="body2" sx={{ color: "white" }}>
-                    {burger.description}
+                    {item.description}
                   </Typography>
                   <Typography
                     variant="body3"
@@ -306,7 +178,7 @@ const ExploreMenu = () => {
                       fontSize: 20,
                     }}
                   >
-                    {burger.price}
+                    Rs. {item.price}
                   </Typography>
                 </CardContent>
                 <CardActions>
