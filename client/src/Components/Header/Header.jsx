@@ -5,11 +5,12 @@ import { IoMenu } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [toggle, setToggle] = useState(false);
   const headerLinks = useRef(null);
-  const navigate = useNavigate();
+  const items = useSelector((state) => state.bag.items);
 
   useGSAP(() => {
     if (!toggle) return;
@@ -31,7 +32,7 @@ const Header = () => {
         <div className="w-full h-full flex justify-between items-center ">
           <div className="flex gap-x-3 ml-5 items-center ">
             <h1 className="text-2xl font-bold mt-1 max-md:text-xl  text-white transition-all duration-150 ease-linear">
-              HasanBites
+              Hasan Bites
             </h1>
           </div>
           <nav className="mr-5 max-sm:hidden">
@@ -49,7 +50,7 @@ const Header = () => {
                 <Link to="/cart">
                   <MdOutlineShoppingBag className="sm:text-3xl lg:text-3xl pb-1" />
                   <div className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                    1
+                    {items.length}
                   </div>
                 </Link>
               </li>

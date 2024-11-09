@@ -16,7 +16,8 @@ import gsap from "gsap";
 import React, { useEffect, useRef, useState } from "react";
 import axiosInstance from "../../Config/axios";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
+import { bagActions } from "../../store/bagSlice.js";
+import { useDispatch } from "react-redux";
 gsap.registerPlugin(ScrollTrigger);
 
 const ExploreMenu = () => {
@@ -26,8 +27,9 @@ const ExploreMenu = () => {
   const [drinkCards, setDrinkCards] = useState([]);
   const [chickenCards, setChickenCards] = useState([]);
   const [categoryCard, setCategoryCard] = useState([]);
-  const categoryItemsContaner = useRef(null);
+  const categoryItemsContainer = useRef(null);
   const [index, setIndex] = useState(0);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getItems();
@@ -44,16 +46,15 @@ const ExploreMenu = () => {
       setDrinkCards(drinks?.data?.data?.drinks);
       setChickenCards(chickens?.data?.data?.chicken);
       setCategoryCard(pizzas?.data?.data?.pizzas);
-      console.log(burgers?.data?.data);
-      console.log(pizzas?.data?.data);
-      console.log(drinks?.data?.data);
-      console.log(chickens?.data?.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  console.log(category);
+  const handleItems = (item) => {
+    dispatch(bagActions.addItems(item));
+  };
+
   const arr = [
     {
       id: 1,
@@ -102,7 +103,9 @@ const ExploreMenu = () => {
     }
   };
   useGSAP(() => {
-    const children = gsap.utils.toArray(categoryItemsContaner.current.children);
+    const children = gsap.utils.toArray(
+      categoryItemsContainer?.current?.children
+    );
     gsap.from(children, {
       opacity: 0,
       stagger: 0.3,
@@ -140,7 +143,7 @@ const ExploreMenu = () => {
       </div>
       <div
         className="w-full min-h-96  grid max-sm:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 px-[4%] max-sm:ml-[5%]"
-        ref={categoryItemsContaner}
+        ref={categoryItemsContainer}
       >
         {categoryCard.map((item, index) => {
           return (
@@ -184,6 +187,7 @@ const ExploreMenu = () => {
                 <CardActions>
                   <div>
                     <Button
+                      onClick={() => handleItems(item)}
                       variant="contained"
                       size="small"
                       sx={{ bgcolor: "orangered" }}
