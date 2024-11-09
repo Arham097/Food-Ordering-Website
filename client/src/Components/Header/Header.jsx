@@ -27,15 +27,15 @@ const Header = () => {
 
   return (
     <>
-      <header className="w-full h-16 mx-auto flex flex-col justify-between items-center bg-gradient-to-r from-slate-800 to-slate-700 px-1 border-b bg-slate-900 border-slate-600">
+      <header className="w-full h-16 mx-auto flex flex-col justify-between items-center  px-1 border-b bg-[#1E2021] border-slate-600">
         <div className="w-full h-full flex justify-between items-center ">
           <div className="flex gap-x-3 ml-5 items-center ">
-            <h1 className="text-3xl font-bold mt-1 max-md:text-xl  text-white transition-all duration-150 ease-linear">
+            <h1 className="text-2xl font-bold mt-1 max-md:text-xl  text-white transition-all duration-150 ease-linear">
               HasanBites
             </h1>
           </div>
           <nav className="mr-5 max-sm:hidden">
-            <ul className="flex gap-x-12 font-semibold pt-2 max-lg:gap-x-10 text-xl mr-2  ">
+            <ul className="flex gap-x-12 font-semibold pt-2 max-lg:gap-x-10 text-[1rem] mr-2  ">
               <li className="hover:text-slate-300 text-white transition-all duration-200 ease-linear">
                 <Link to="/">Home</Link>
               </li>

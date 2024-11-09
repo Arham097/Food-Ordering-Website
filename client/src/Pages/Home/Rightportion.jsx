@@ -5,10 +5,10 @@ import React, { useRef } from "react";
 const Rightportion = () => {
   const right = useRef(null);
   const avatars = [
-    { id: 1, src: "./person1.jpg", alt: "User 1" },
-    { id: 2, src: "./person2.JPG", alt: "User 2" },
-    { id: 3, src: "./person3.JPG", alt: "User 3" },
-    { id: 4, src: "./person4.JPG", alt: "User 4" },
+    { id: 1, src: "./Customers/person1.jpg", alt: "User 1" },
+    { id: 2, src: "./Customers/person2.JPG", alt: "User 2" },
+    { id: 3, src: "./Customers/person3.JPG", alt: "User 3" },
+    { id: 4, src: "./Customers/person4.JPG", alt: "User 4" },
   ];
   useGSAP(() => {
     const children = gsap.utils.toArray(right.current.children);
@@ -39,9 +39,13 @@ const Rightportion = () => {
       className="md:w-96 md:h-96 md:absolute md:right-[4%] md:z-10 md:top-[20%] lg:w-[39rem] lg:h-[29rem] lg:right-[5%] sm:hidden md:block max-sm:hidden"
       ref={right}
     >
-      <img src="./image.png" alt="" className="lg:absolute z-20 lg:w-8/12 " />
       <img
-        src="./logo.png"
+        src="./Home Right Section/Burger.png"
+        alt=""
+        className="lg:absolute z-20 lg:w-8/12 "
+      />
+      <img
+        src="./Home Right Section/logo.png"
         alt=""
         className="lg:absolute lg:w-2/5 right-0 -top-6 sm:hidden lg:block"
       />

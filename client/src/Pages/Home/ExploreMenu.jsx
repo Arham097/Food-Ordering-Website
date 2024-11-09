@@ -57,25 +57,25 @@ const ExploreMenu = () => {
   const arr = [
     {
       id: 1,
-      src: "./pizza.png",
+      src: "./Categories/pizza2.png",
       alt: "Pizza",
       title: "Pizzas",
     },
     {
       id: 2,
-      src: "./burger.png",
+      src: "./Categories/burger.png",
       alt: "Burger",
       title: "Burgers",
     },
     {
       id: 3,
-      src: "./drink.webp",
+      src: "./Categories/drinks.png",
       alt: "Drink",
       title: "Drinks",
     },
     {
       id: 4,
-      src: "./chicken.png",
+      src: "./Categories/chicken.png",
       alt: "Chicken",
       title: "Chicken",
     },
@@ -121,7 +121,7 @@ const ExploreMenu = () => {
           return (
             <div
               className={`h-full w-10/12 flex flex-col justify-center items-center border-2 ${
-                category === item.title ? "bg-orange-600" : "bg-slate-600"
+                category === item.title ? "bg-orange-600" : "bg-[#2c2f2f]"
               } border-slate-600`}
               key={index}
               onClick={() => handleCategory(item.title, index)}
@@ -131,7 +131,7 @@ const ExploreMenu = () => {
                 alt={item.alt}
                 className="w-16 h-16 color-slate-600"
               />
-              <h4 className="max-sm:text-sm sm:text-sm font-semibold text-slate-300">
+              <h4 className="max-sm:text-sm sm:text-sm font-semibold text-white">
                 {item.title}
               </h4>
             </div>
@@ -148,7 +148,7 @@ const ExploreMenu = () => {
               sx={{
                 maxWidth: "95%",
                 marginBottom: "35px",
-                backgroundColor: "#374151",
+                backgroundColor: "#2c2f2f",
                 color: "white",
                 border: "2px solid #374151",
               }}

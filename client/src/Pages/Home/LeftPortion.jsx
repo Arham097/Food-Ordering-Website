@@ -2,6 +2,7 @@ import { useGSAP } from "@gsap/react";
 import { Button } from "@mui/material";
 import gsap from "gsap";
 import React, { useRef } from "react";
+import { Link } from "react-router-dom";
 
 const LeftPortion = () => {
   const left = useRef(null);
@@ -27,19 +28,21 @@ const LeftPortion = () => {
         We have a proper passion for cooking. Love is the secret ingredient that
         makes all oir meals taste better and magical.
       </div>
-      <Button
-        variant="contained"
-        size="large"
-        sx={{
-          backgroundColor: "orangered",
-          fontWeight: "bold",
-          fontFamily: "Poppins",
-          position: "relative",
-          width: "fit-content",
-        }}
-      >
-        Discover Menu
-      </Button>
+      <Link to="/menu">
+        <Button
+          variant="contained"
+          size="large"
+          sx={{
+            backgroundColor: "orangered",
+            fontWeight: "bold",
+            fontFamily: "Poppins",
+            position: "relative",
+            width: "fit-content",
+          }}
+        >
+          Discover Menu
+        </Button>
+      </Link>
     </div>
   );
 };
