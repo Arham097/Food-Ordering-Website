@@ -8,23 +8,29 @@ const bagSlice = createSlice({
   },
   reducers: {
     addItems: (state, action) => {
-      let item = action.payload;
-      if (!item.quantity) item.quantity = 1;
-      state.items.push(item);
-      state.totalAmount += item.price * item.quantity;
+      const newItem = action.payload;
+      const existingItem = state.items.find(item => item._id === newItem._id);
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+
+        state.items.push({ ...newItem, quantity: 1 });
+      }
+      state.totalAmount += newItem.price;
     },
     removeItem: (state, action) => {
-      const itemId = action.payload.id;
-      const removeItem = state.items.find(item => item.id === itemId);
+      const itemId = action.payload;
+      const removeItem = state.items.find(item => item._id === itemId);
 
       if (removeItem) {
         state.totalAmount -= removeItem.price * removeItem.quantity;
-        state.items = state.items.filter(item => item.id !== itemId);
+        state.items = state.items.filter(item => item._id !== itemId);
       }
     },
     incrementItem: (state, action) => {
-      const itemId = action.payload.id;
-      const incrementItem = state.items.find(item => item.id === itemId);
+      const itemId = action.payload;
+      const incrementItem = state.items.find(item => item._id === itemId);
 
       if (incrementItem) {
         state.totalAmount += incrementItem.price;
@@ -32,8 +38,8 @@ const bagSlice = createSlice({
       }
     },
     decrementItem: (state, action) => {
-      const itemId = action.payload.id;
-      const itemToDecrement = state.items.find(item => item.id === itemId);
+      const itemId = action.payload;
+      const itemToDecrement = state.items.find(item => item._id === itemId);
 
       if (itemToDecrement && itemToDecrement.quantity > 1) {
         itemToDecrement.quantity--;

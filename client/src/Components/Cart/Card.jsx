@@ -1,23 +1,32 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { bagActions } from "../../store/bagSlice";
 
 const Card = ({ item }) => {
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
+  const itemQuantity = useSelector(
+    (store) => store.bag.items.find((i) => i._id === item._id)?.quantity
+  );
+  useEffect(() => {
+    if (itemQuantity) {
+      setCount(itemQuantity);
+    }
+  }, [itemQuantity]);
 
   const increment = () => {
-    dispatch(bagActions.incrementItem(item));
+    dispatch(bagActions.incrementItem(item._id));
     setCount(count + 1);
   };
 
   const decrement = () => {
+    console.log(item);
     if (count === 1) {
-      dispatch(bagActions.removeItem(item));
+      dispatch(bagActions.removeItem(item._id));
       return;
     }
     setCount(count - 1);
-    dispatch(bagActions.decrementItem(item));
+    dispatch(bagActions.decrementItem(item._id));
   };
   return (
     <div className="w-[95%] bg-[#2C2F2F] rounded-lg h-40 flex mb-2 shadow-lg ">

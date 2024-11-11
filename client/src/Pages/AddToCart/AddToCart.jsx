@@ -22,7 +22,7 @@ const AddToCart = () => {
                 <Card item={item} key={item._id} />
               ))}
               <div className="bg-black w-56 h-12 my-4 hover:scale-105 transition-all duration-300">
-                <Link to="/">
+                <Link to="/#explore-section">
                   <button className="bg-orange-500 w-full h-full font-bold text-white hover:scale-105 transition-all duration-300">
                     Add More Items
                   </button>
@@ -30,18 +30,26 @@ const AddToCart = () => {
               </div>
             </div>
           </div>
-          <div className="w-full h-52 flex flex-col items-center text-white font-semibold max-sm:my-4 sm:my-4 md:mt-20 ">
-            <div className="w-[95%] h-1/3 border-b border-slate-900 bg-[#2C2F2F] flex justify-between items-center px-4 rounded-t-md">
+          <div className="w-full h-64 flex flex-col items-center text-white font-semibold max-sm:my-4 sm:my-4 md:mt-20 ">
+            <div className="w-[90%] h-1/3 border-b border-slate-900 bg-[#2C2F2F] flex justify-between items-center px-4 rounded-t-md">
               <span>Subtotal:</span>
               <span>RS. {subTotal}</span>
             </div>
-            <div className="w-[95%] h-1/3 border-b border-slate-900 bg-[#2C2F2F] flex justify-between items-center px-4">
+            <div className="w-[90%] h-1/3 border-b border-slate-900 bg-[#2C2F2F] flex justify-between items-center px-4">
               <span>GST (15%):</span>
               <span>RS. {GST}</span>
             </div>
-            <div className="w-[95%] h-1/3 border-b border-slate-900 bg-[#2C2F2F] flex justify-between items-center px-4 rounded-b-md">
+            <div className="w-[90%] h-1/3 border-b border-slate-900 bg-[#2C2F2F] flex justify-between items-center px-4 rounded-b-md">
               <span>Total:</span>
               <span>Rs. {total}</span>
+            </div>
+            <div className="bg-black w-[90%] h-16 my-4 hover:scale-105 transition-all duration-300">
+              <Link to="/checkout">
+                <button className="bg-orange-500 w-full h-full font-bold text-white hover:scale-100 transition-all duration-300 rounded-sm flex items-center justify-center gap-x-2 ">
+                  <span>Checkout</span>
+                  <img src="./Cart/right-arrow.png" alt="" className="w-6" />
+                </button>
+              </Link>
             </div>
           </div>
         </div>
