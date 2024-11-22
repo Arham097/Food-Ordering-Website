@@ -6,9 +6,8 @@ import { useSelector } from "react-redux";
 const AddToCart = () => {
   const items = useSelector((store) => store.bag.items);
   const totalAmount = useSelector((store) => store.bag.totalAmount);
-  const subTotal = totalAmount;
-  const GST = parseInt(subTotal * 0.15);
-  const total = subTotal + GST;
+  const GST = parseInt(totalAmount * 0.15);
+  const total = totalAmount + GST;
   return (
     <div className="w-screen min-h-[88vh] bg-[#1E2021]">
       {items.length !== 0 ? (
@@ -33,7 +32,7 @@ const AddToCart = () => {
           <div className="w-full h-64 flex flex-col items-center text-white font-semibold max-sm:my-4 sm:my-4 md:mt-20 ">
             <div className="w-[90%] h-1/3 border-b border-slate-900 bg-[#2C2F2F] flex justify-between items-center px-4 rounded-t-md">
               <span>Subtotal:</span>
-              <span>RS. {subTotal}</span>
+              <span>RS. {totalAmount}</span>
             </div>
             <div className="w-[90%] h-1/3 border-b border-slate-900 bg-[#2C2F2F] flex justify-between items-center px-4">
               <span>GST (15%):</span>
@@ -47,7 +46,7 @@ const AddToCart = () => {
               <Link to="/checkout">
                 <button className="bg-orange-500 w-full h-full font-bold text-white hover:scale-100 transition-all duration-300 rounded-sm flex items-center justify-center gap-x-2 ">
                   <span>Checkout</span>
-                  <img src="./Cart/right-arrow.png" alt="" className="w-6" />
+                  <img src="./Arrows/right_arrow.png" alt="" className="w-6" />
                 </button>
               </Link>
             </div>

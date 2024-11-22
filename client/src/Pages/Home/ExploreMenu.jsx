@@ -151,7 +151,7 @@ const ExploreMenu = () => {
               sx={{
                 maxWidth: "95%",
                 marginBottom: "35px",
-                backgroundColor: "#2c2f2f",
+                backgroundColor: "#2c2f2fac",
                 color: "white",
                 border: "2px solid #374151",
               }}
@@ -170,7 +170,10 @@ const ExploreMenu = () => {
                   >
                     {item.name}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: "white" }}>
+                  <Typography
+                    variant="body2"
+                    sx={{ color: "white", minHeight: "60px", lineClamp: 3 }}
+                  >
                     {item.description}
                   </Typography>
                   <Typography
