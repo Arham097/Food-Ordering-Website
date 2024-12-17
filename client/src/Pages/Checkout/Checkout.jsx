@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TextField } from "@mui/material";
+import toast from "react-hot-toast";
 
 const Checkout = () => {
   const items = useSelector((store) => store.bag.items);
@@ -31,7 +32,7 @@ const Checkout = () => {
           </h1>
         </div>
         <div className="w-full min-h-96 p-2">
-          <form action="" className="w-full h-full">
+          <form action="" className="w-11/12 h-full">
             <div className="w-full min-h-4/5 rounded-lg  flex flex-col p-4 bg-[#2c2f2fac] ml-5">
               <h1 className="text-white text-2xl font-semibold">
                 Contact Information
@@ -108,7 +109,7 @@ const Checkout = () => {
         </div>
       </div>
       <div className="w-full h-full  mx-auto">
-        <div className="sm:w-full md:w-96 max min-h-64 flex flex-col items-center  text-white  max-sm:my-4 sm:my-4 md:mt-20 pt-2 ml-6">
+        <div className="sm:w-full md:w-96 max min-h-64 flex flex-col items-center  text-white  max-sm:my-4 sm:my-4 md:mt-20 pt-2">
           {items.map((item) => (
             <div className="w-[90%] h-20 bg-[#2c2f2fac] px-4 mb-2 rounded-md flex flex-col justify-center gap-y-2 ">
               <div className="flex gap-x-3">
@@ -137,7 +138,12 @@ const Checkout = () => {
           </div>
           <div className="bg-black w-[90%] h-14 my-4 hover:scale-105 transition-all duration-300 rounded-md">
             <Link to="/checkout">
-              <button className="bg-orange-500 w-full h-full font-bold text-white hover:scale-100 transition-all duration-300 rounded-md">
+              <button
+                className="bg-orange-500 w-full h-full font-bold text-white hover:scale-100 transition-all duration-300 rounded-md"
+                onClick={() => {
+                  toast.success("Your Order has been Placed");
+                }}
+              >
                 Place Your Order
               </button>
             </Link>

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from 'react-hot-toast';
 
 const bagSlice = createSlice({
   name: 'bag',
@@ -17,6 +18,7 @@ const bagSlice = createSlice({
 
         state.items.push({ ...newItem, quantity: 1 });
       }
+      toast.success('Item added to cart');
       state.totalAmount += newItem.price;
     },
     removeItem: (state, action) => {

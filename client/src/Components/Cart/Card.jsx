@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bagActions } from "../../store/bagSlice";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const Card = ({ item }) => {
   const dispatch = useDispatch();
@@ -28,6 +29,10 @@ const Card = ({ item }) => {
     setCount(count - 1);
     dispatch(bagActions.decrementItem(item._id));
   };
+  const removeItem = () => {
+    dispatch(bagActions.removeItem(item._id));
+    // console.log("1212");
+  };
   return (
     <div className="w-[95%] bg-[#2C2F2F] rounded-lg h-40 flex mb-2 shadow-lg ">
       <div className="w-48 h-full rounded-l-lg ">
@@ -37,7 +42,7 @@ const Card = ({ item }) => {
         <h1 className="max-sm:text-xl sm:text-2xl font-semibold">
           {item.name}
         </h1>
-        <p className="line-clamp-2 ">{item.description}</p>
+        <p className="line-clamp-2 w-[95%]">{item.description}</p>
         <p className="font-semibold">
           Rs. {count != 0 ? item.price * count : item.price}
         </p>
@@ -51,6 +56,13 @@ const Card = ({ item }) => {
           />
           <button onClick={increment}>+</button>
         </div>
+      </div>
+      {/* Delete Icon */}
+      <div className="w-10 h-full flex justify-center p-2 cursor-pointer">
+        <RiDeleteBin6Line
+          className="text-4xl text-red-500 hover:scale-125 transition-all duration-500"
+          onClick={removeItem}
+        />
       </div>
     </div>
   );

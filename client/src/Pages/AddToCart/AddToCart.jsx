@@ -22,7 +22,7 @@ const AddToCart = () => {
               ))}
               <div className="bg-black w-56 h-12 my-4 hover:scale-105 transition-all duration-300">
                 <Link to="/#explore-section">
-                  <button className="bg-orange-500 w-full h-full font-bold text-white hover:scale-105 transition-all duration-300">
+                  <button className="bg-orange-500 w-full h-full font-bold text-white hover:scale-105 transition-all duration-300 cursor-pointer">
                     Add More Items
                   </button>
                 </Link>

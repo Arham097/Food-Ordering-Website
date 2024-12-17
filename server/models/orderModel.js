@@ -32,6 +32,9 @@ const orderSchema = new mongoose.Schema({
       type: String,
       required: [true, 'Please provide the customer phone number!'],
     },
+    specialInstructions: {
+      type: String,
+    },
   },
   status: {
     type: String,
