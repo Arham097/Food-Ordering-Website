@@ -1,5 +1,6 @@
 // textFieldStyles.js
 const textFieldSx = {
+
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
       borderColor: "white",
@@ -21,6 +22,7 @@ const textFieldSx = {
     color: "#ffffff",
   },
   marginTop: "1rem",
+  width: "100%",
 };
 
 export default textFieldSx;

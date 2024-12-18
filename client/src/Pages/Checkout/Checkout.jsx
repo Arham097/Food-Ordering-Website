@@ -6,15 +6,21 @@ import toast from "react-hot-toast";
 import { modalActions } from "../../store/modalSlice";
 import ConfirmationModal from "./ConfirmationModal";
 import textFieldSx from "./TestFieldSx";
+import ProfilleModal from "../Profile/ProfileModal";
 
 const Checkout = () => {
   const dispatch = useDispatch();
-  const isOpen = useSelector((store) => store.modal.confirmationModal.open);
-  console.log(isOpen);
+  // const isOpen = useSelector((store) => store.modal.confirmationModal.open);
+  const user = JSON.parse(localStorage.getItem("user")) || null;
   const items = useSelector((store) => store.bag.items);
+
+  // Calculate the total amount of the items in the bag
   const totalAmount = useSelector((store) => store.bag.totalAmount);
+  // Calculate the GST
   const GST = parseInt(totalAmount * 0.15);
+  // Calculate the total amount including GST
   const total = totalAmount + GST;
+
   const formRef = useRef(null);
   const handleFormSubmit = (event) => {
     event.preventDefault();
@@ -35,9 +41,9 @@ const Checkout = () => {
     }
   };
   return (
-    <div className="w-screen min-h-screen pt-20  grid max-sm:grid-cols-1 md:grid-cols-[2fr_1fr] pb-6 bg-[#1E2021]">
+    <div className="min-w-screen min-h-screen pt-20  grid max-sm:grid-cols-1 md:grid-cols-[2fr_1fr] pb-6 bg-[#1E2021]">
       <div className="w-full h-full">
-        <div className="w-full h-20 flex items-center ml-7">
+        <div className="w-full h-20 flex items-center pl-7">
           <Link to="/cart">
             <img
               src="./Arrows/left_arrow.png"
@@ -82,7 +88,7 @@ const Checkout = () => {
                 required
                 id="outlined-basic"
                 type="tel"
-                label="Phone Number (03**-*******)"
+                label="Phone Number (03xx-xxxxxxx)"
                 name="Phone Number"
                 variant="outlined"
                 sx={textFieldSx}
@@ -147,8 +153,8 @@ const Checkout = () => {
           </form>
         </div>
       </div>
-      <div className="w-full h-full mx-auto">
-        <div className="sm:w-full md:w-96 max min-h-64 flex flex-col items-center fixed text-white  max-sm:my-4 sm:my-4 md:mt-20 pt-2">
+      <div className="w-full h-full ">
+        <div className="sm:w-full md:w-96 max min-h-64 flex flex-col items-center text-white  max-sm:my-4 sm:my-4 md:mt-20 pt-2 max-md:-ml-2">
           {items.map((item, key) => (
             <div
               key={key}
@@ -182,6 +188,10 @@ const Checkout = () => {
             <button
               className="bg-orange-500 w-full h-full font-bold text-white hover:scale-100 transition-all duration-300 rounded-md"
               onClick={() => {
+                if (!user) {
+                  dispatch(modalActions.openProfileModal());
+                  return;
+                }
                 dispatch(modalActions.openConfirmationModal());
               }}
             >
@@ -190,6 +200,7 @@ const Checkout = () => {
           </div>
         </div>
         <ConfirmationModal handleSubmit={handleFormSubmit} />
+        <ProfilleModal />
       </div>
     </div>
   );

@@ -10,6 +10,9 @@ const modalSlice = createSlice({
       itemId: "",
       open: false,
     },
+    profileModal: {
+      open: false,
+    },
   },
   reducers: {
     openConfirmationModal: (state) => {
@@ -28,7 +31,14 @@ const modalSlice = createSlice({
       state.deleteModal.open = false;
       state.deleteModal.itemId = "";
     },
+    openProfileModal: (state) => {
+      state.profileModal.open = true;
+    },
+    closeProfileModal: (state) => {
+      state.profileModal.open = false;
+    },
   }
+
 })
 
 export const modalActions = modalSlice.actions;

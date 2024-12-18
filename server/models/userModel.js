@@ -16,7 +16,6 @@ const userSchema = new mongoose.Schema({
   },
   address: {
     type: String,
-    required: [true, 'Please provide your address!'],
   },
   phone: {
     type: String,
@@ -29,13 +28,6 @@ const userSchema = new mongoose.Schema({
     enum: ['user', 'admin'],
     default: 'user',
   },
-  paymentMethods: [
-    {
-      type: { type: String, enum: ['Credit Card', 'Cash'] },
-      cardNumber: String, // Encrypted in production
-      expiryDate: Date
-    }
-  ],
 })
 
 const User = mongoose.model('User', userSchema);
