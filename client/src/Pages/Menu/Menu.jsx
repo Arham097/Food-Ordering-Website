@@ -22,7 +22,7 @@ const Menu = () => {
     downloadLinkRef.current.click(); // Trigger the click
   };
   return (
-    <div className="bg-[#1E2021] w-screen min-h-screen flex justify-center">
+    <div className="bg-[#1E2021] w-screen min-h-screen flex justify-center mt-16">
       <div
         className="max-sm:w-10/12 sm:w-3/4 md:w-7/12 lg:w-5/12 h-full flex flex-col gap-4 mt-5"
         ref={menu}

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bagActions } from "../../store/bagSlice";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { modalActions } from "../../store/modalSlice";
+import DeleteModal from "./DeleteModal";
 
 const Card = ({ item }) => {
   const dispatch = useDispatch();
@@ -58,12 +60,16 @@ const Card = ({ item }) => {
         </div>
       </div>
       {/* Delete Icon */}
-      <div className="w-10 h-full flex justify-center p-2 cursor-pointer">
+      <div className="w-14 h-full flex justify-center p-2 pt-4 cursor-pointer">
         <RiDeleteBin6Line
-          className="text-4xl text-red-500 hover:scale-125 transition-all duration-500"
-          onClick={removeItem}
+          className="text-2xl text-red-500 hover:scale-125 transition-all duration-500"
+          onClick={() => {
+            dispatch(modalActions.openDeleteModal(item._id));
+          }}
+          // onClick={removeItem}
         />
       </div>
+      <DeleteModal />
     </div>
   );
 };

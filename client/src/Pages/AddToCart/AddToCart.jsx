@@ -5,11 +5,12 @@ import { useSelector } from "react-redux";
 
 const AddToCart = () => {
   const items = useSelector((store) => store.bag.items);
+  // const items = JSON.parse(localStorage.getItem("Items")) || [];
   const totalAmount = useSelector((store) => store.bag.totalAmount);
   const GST = parseInt(totalAmount * 0.15);
   const total = totalAmount + GST;
   return (
-    <div className="w-screen min-h-[88vh] bg-[#1E2021]">
+    <div className="w-screen min-h-screen pt-20 bg-[#1E2021]">
       {items.length !== 0 ? (
         <div className="grid max-sm:grid-cols-1 md:grid-cols-[2fr_1fr] w-full min-h-[70vh]">
           <div className="w-full min-h-[40vh] ">
@@ -20,9 +21,9 @@ const AddToCart = () => {
               {items.map((item) => (
                 <Card item={item} key={item._id} />
               ))}
-              <div className="bg-black w-56 h-12 my-4 hover:scale-105 transition-all duration-300">
+              <div className="bg-black w-56 h-12 my-4 hover:scale-105 transition-all duration-300 rounded-md">
                 <Link to="/#explore-section">
-                  <button className="bg-orange-500 w-full h-full font-bold text-white hover:scale-105 transition-all duration-300 cursor-pointer">
+                  <button className="bg-orange-500 w-full h-full font-bold text-white hover:scale-105 transition-all duration-300 cursor-pointer rounded-md">
                     Add More Items
                   </button>
                 </Link>
@@ -42,9 +43,9 @@ const AddToCart = () => {
               <span>Total:</span>
               <span>Rs. {total}</span>
             </div>
-            <div className="bg-black w-[90%] h-16 my-4 hover:scale-105 transition-all duration-300">
+            <div className="bg-black w-[90%] h-20 my-4 hover:scale-105 transition-all duration-300 rounded-md">
               <Link to="/checkout">
-                <button className="bg-orange-500 w-full h-full font-bold text-white hover:scale-100 transition-all duration-300 rounded-sm flex items-center justify-center gap-x-2 ">
+                <button className="bg-orange-500 w-full h-full font-bold text-white hover:scale-100 transition-all duration-300 rounded-md flex items-center justify-center gap-x-2 ">
                   <span>Checkout</span>
                   <img src="./Arrows/right_arrow.png" alt="" className="w-6" />
                 </button>

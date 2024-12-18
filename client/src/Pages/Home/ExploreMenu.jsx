@@ -52,6 +52,10 @@ const ExploreMenu = () => {
   };
 
   const handleItems = (item) => {
+    // Retrieve and parse the existing items from localStorage
+    // const items = JSON.parse(localStorage.getItem("Items")) || [];
+    // const updatedItems = [...items, item];
+    // localStorage.setItem("Items", JSON.stringify(updatedItems));
     dispatch(bagActions.addItems(item));
   };
 
@@ -103,12 +107,8 @@ const ExploreMenu = () => {
     }
   };
   useGSAP(() => {
-    const children = gsap.utils.toArray(
-      categoryItemsContainer?.current?.children
-    );
-    gsap.from(children, {
+    gsap.from(categoryItemsContainer.current, {
       opacity: 0,
-      stagger: 0.3,
       duration: 2,
       y: 250,
       ease: "power4.out",

@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 
 const Home = () => {
   const location = useLocation();
+  const bagItems = JSON.parse(localStorage.getItem("Items")) || [];
 
   useEffect(() => {
     if (location.hash) {
@@ -17,7 +18,7 @@ const Home = () => {
   }, [location]);
 
   return (
-    <main className="w-screen min-h-screen bg-[#1E2021]  ">
+    <main className="w-screen min-h-screen bg-[#1E2021] pt-20  ">
       <section className="w-screen sm:h-[85vh] md:h-screen bg-[#1E2021] border-b-2 border-slate-600">
         <LeftPortion />
         <Rightportion />

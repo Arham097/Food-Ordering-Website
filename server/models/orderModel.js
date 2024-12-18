@@ -36,6 +36,11 @@ const orderSchema = new mongoose.Schema({
       type: String,
     },
   },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User', // This assumes you have a User model
+    required: true,
+  },
   status: {
     type: String,
     enum: ['Pending', 'Processing', 'Delivered', 'Cancelled'],

@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
   },
   paymentMethods: [
     {
-      type: { type: String, enum: ['Credit Card', 'PayPal', 'Cash'] },
+      type: { type: String, enum: ['Credit Card', 'Cash'] },
       cardNumber: String, // Encrypted in production
       expiryDate: Date
     }

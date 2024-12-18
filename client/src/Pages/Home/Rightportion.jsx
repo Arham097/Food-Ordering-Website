@@ -11,26 +11,11 @@ const Rightportion = () => {
     { id: 4, src: "./Customers/person4.JPG", alt: "User 4" },
   ];
   useGSAP(() => {
-    const children = gsap.utils.toArray(right.current.children);
-    gsap.from(children[0], {
+    gsap.from(right.current, {
       opacity: 0,
       // stagger: 0.3,
-      duration: 2,
+      duration: 1.2,
       y: 250,
-      ease: "power4.out",
-    });
-    gsap.from(children[1], {
-      opacity: 0,
-      // stagger: 0.3,
-      duration: 2,
-      x: 250,
-      ease: "power4.out",
-    });
-    gsap.from(children[2], {
-      opacity: 0,
-      // stagger: 0.3,
-      duration: 2,
-      x: -250,
       ease: "power4.out",
     });
   });
