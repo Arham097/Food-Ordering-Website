@@ -115,7 +115,7 @@ const ExploreMenu = () => {
     });
   }, [category]);
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 overflow-hidden">
       <h1 className="max-sm:text-2xl sm:text-3xl md:text-4xl font-semibold  text-center text-white">
         Tasty Meals at Reasonable Prices
       </h1>
@@ -142,15 +142,17 @@ const ExploreMenu = () => {
         })}
       </div>
       <div
-        className="w-full min-h-96  grid max-sm:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 px-[4%] max-sm:ml-[5%]"
+        className="w-full min-h-96  grid max-sm:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 px-[5%] max-sm:pl-[13%]"
         ref={categoryItemsContainer}
       >
         {categoryCard.map((item, index) => {
           return (
             <Card
               sx={{
-                maxWidth: "95%",
+                maxWidth: "400px",
+                // minWidth: "300px",
                 marginBottom: "35px",
+                marginRight: "10px",
                 backgroundColor: "#2c2f2fac",
                 color: "white",
                 border: "2px solid #374151",

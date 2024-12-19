@@ -74,7 +74,7 @@ const Header = () => {
 
       {/* Conditionally Rendered Div */}
       {toggle && (
-        <div className="w-full bg-slate-700 flex flex-col transition-all duration-1000 ease-in-out sm:hidden">
+        <div className="w-full bg-[#2C2F2F] flex flex-col transition-all duration-1000 ease-in-out sm:hidden mt-14">
           <nav>
             <ul
               className="flex flex-col gap-y-2 font-bold py-3 text-white "

@@ -154,7 +154,7 @@ const Checkout = () => {
         </div>
       </div>
       <div className="w-full h-full ">
-        <div className="sm:w-full md:w-96 max min-h-64 flex flex-col items-center text-white  max-sm:my-4 sm:my-4 md:mt-20 pt-2 max-md:-ml-2">
+        <div className="sm:w-full md:w-96 max min-h-64 flex flex-col items-center text-white  max-sm:my-4 sm:my-4 md:mt-20 pt-2 max-md:-ml-2 max-sm:pl-2">
           {items.map((item, key) => (
             <div
               key={key}
@@ -172,7 +172,7 @@ const Checkout = () => {
               </div>
             </div>
           ))}
-          <div className="w-[90%] h-16 border-b border-slate-900 bg-[#2C2F2Fac] flex justify-between items-center px-4 rounded-t-md font-semibold">
+          <div className="w-[90%] h-16 border-b border-slate-900 bg-[#2C2F2Fac] flex justify-between items-center px-4 rounded-t-md font-semibold ">
             <span>Subtotal:</span>
             <span>Rs. {totalAmount} </span>
           </div>

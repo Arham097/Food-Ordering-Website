@@ -12,4 +12,5 @@ exports.createAccount = asyncErrorHandler(async (req, res, next) => {
       user: newUser
     }
   })
+  next();
 })
