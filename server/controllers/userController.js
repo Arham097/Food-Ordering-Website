@@ -2,6 +2,7 @@
 const User = require('../models/userModel')
 const asyncErrorHandler = require('../utils/asyncErrorHandler')
 const jwt = require('jsonwebtoken')
+const CustomError = require('../utils/customError')
 
 const signUpToken = id => {
   return jwt.sign({ id }, process.env.SECRET_STRING, {
@@ -55,5 +56,22 @@ exports.updateAccount = asyncErrorHandler(async (req, res) => {
       user
     }
   })
+})
 
+exports.deleteAccount = asyncErrorHandler(async (req, res, next) => {
+  const { _id } = req.query;
+  if (!_id) {
+    const error = new CustomError("User Id Required", 400);
+    return next(error);
+  }
+  const user = await User.findByIdAndDelete(_id);
+  if (!user) {
+    const error = new CustomError("User not found", 404);
+  }
+  console.log(user);
+
+  res.status(204).json({
+    status: "success",
+    data: null
+  })
 })

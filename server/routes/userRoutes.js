@@ -9,6 +9,7 @@ router.route('/create-account')
 router.route('/update-account')
   .put(userController.updateAccount);
 
-
+router.route('/delete-account')
+  .delete(userController.deleteAccount);
 
 module.exports = router;

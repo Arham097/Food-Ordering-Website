@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { modalActions } from "../../store/modalSlice";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../Config/axios";
+import { userActions } from "../../store/userSlice";
 
 const style = {
   position: "absolute",
@@ -31,6 +33,8 @@ const style = {
 
 export default function ProfileDeleteModal() {
   const isOpen = useSelector((store) => store.modal.profileDeleteModal.open);
+  const user = useSelector((store) => store.user.user);
+  console.log(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -38,8 +42,29 @@ export default function ProfileDeleteModal() {
     dispatch(modalActions.closeProfileDeleteModal());
   };
 
-  const handleYes = () => {
+  const handleYes = async () => {
     // Add your logic for deleting the account here
+    try {
+      const response = await axiosInstance.delete("/user/delete-account", {
+        params: { _id: user._id },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.status === 204) {
+        toast.success("Account Deleted Successfully");
+        dispatch(userActions.clearUser());
+      }
+    } catch (error) {
+      if (error.response) {
+        toast.error(
+          `Error: ${error.response.data.message}` || "Something went wrong"
+        );
+      } else {
+        toast.error("Server unreachable. Please try again later");
+      }
+    }
+
     dispatch(modalActions.closeProfileDeleteModal());
   };
 
