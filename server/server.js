@@ -5,8 +5,6 @@ const app = require('./app');
 
 
 mongoose.connect('mongodb://127.0.0.1:27017/DineWithHasan', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
 })
 
   .then(() => {
@@ -17,6 +15,9 @@ mongoose.connect('mongodb://127.0.0.1:27017/DineWithHasan', {
 
 const port = process.env.PORT || 3000;
 
+
 app.listen(port, () => {
-  console.log(`App is running on port ${port}`)
+  console.log(`App is running on port ${port}`);
+  console.log(`Running in ${process.env.NODE_ENV} mode`);
+
 })

@@ -1,8 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import textFieldSx from "../Checkout/TestFieldSx";
 import { TextField } from "@mui/material";
+import { toast } from "react-hot-toast";
+import axiosInstance from "../../Config/axios";
 
 const Profile = () => {
+  const [user, setUser] = useState();
+  localStorage.setItem("user", JSON.stringify(user));
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await axiosInstance.post("/user/create-account", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.status === 201) {
+        toast.success("Account Created Succesfully");
+        setUser(data);
+      }
+    } catch (error) {
+      if (error.response) {
+        // Server responded with a status code other than 2xx
+        toast.error(
+          `Error: ${error.response.data.message || "Something went wrong!"}`
+        );
+      } else {
+        // No response from server
+        toast.error("Server unreachable. Please try again later.");
+      }
+    }
+  };
+  console.log(user);
+  const userSt = JSON.stringify(localStorage.getItem("user"));
   return (
     <div className="w-screen min-h-screen bg-[#1E2021] pt-20 flex justify-center items-center py-2 max-sm:pb-10">
       <div className="w-[400px] max-sm:w-[360px] min-h-96 bg-[#2c2f2fac] rounded-xl flex items-center flex-col py-5">
@@ -15,9 +49,10 @@ const Profile = () => {
           experience at your fingertips.
         </p>
         <form
-          method="GET"
-          action="/profile"
+          // method="POST"
+          // action="http://localhost:3000/api/v1/user/create-account"
           className="max-sm:w-[85%] sm:w-[85%] h-full"
+          onSubmit={handleSubmit}
         >
           <TextField
             required
@@ -41,7 +76,7 @@ const Profile = () => {
             required
             id="outlined-basic"
             type="tel"
-            label="Phone Number (03xx-xxxxxxx)"
+            label="Phone Number (03xxxxxxxxx)"
             name="phone"
             variant="outlined"
             sx={textFieldSx}

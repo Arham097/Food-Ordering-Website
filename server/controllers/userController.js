@@ -1,7 +1,7 @@
 const User = require('../models/userModel')
 const asyncErrorHandler = require('../utils/asyncErrorHandler')
 
-exports.createAccount = asyncErrorHandler(async (req, res, next) => {
+exports.createAccount = asyncErrorHandler(async (req, res) => {
   console.log(req.body);
   const newUser = await User.create(req.body);
   console.log(newUser);
@@ -12,5 +12,5 @@ exports.createAccount = asyncErrorHandler(async (req, res, next) => {
       user: newUser
     }
   })
-  next();
+
 })
