@@ -28,7 +28,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="w-full h-16 mx-auto flex flex-col justify-between items-center  px-1 border-b bg-[#1E2021] border-slate-600 fixed z-50 top-0">
+      <header className="w-full h-16 mx-auto flex flex-col justify-between items-center  px-1 border-b bg-[#1E2021] border-slate-700 fixed z-50 top-0">
         <div className="w-full h-full flex justify-between items-center ">
           <div className="flex gap-x-3 ml-5 items-center ">
             <h1 className="text-2xl font-bold mt-1 max-md:text-xl  text-white transition-all duration-150 ease-linear">
@@ -37,16 +37,16 @@ const Header = () => {
           </div>
           <nav className="mr-5 max-sm:hidden">
             <ul className="flex gap-x-12 font-semibold pt-2 max-lg:gap-x-10 text-[1rem] mr-2  ">
-              <li className="hover:text-slate-300 text-white transition-all duration-200 ease-linear">
+              <li className="hover:text-orange-400 hover:border-b border-orange-400 text-white transition-all duration-200 ease-linear">
                 <Link to="/">Home</Link>
               </li>
-              <li className="hover:text-slate-300  text-white transition-all duration-200 ease-linear">
+              <li className="hover:text-orange-400 hover:border-b border-orange-400  text-white transition-all duration-200 ease-linear">
                 <Link to="/menu">Menu</Link>
               </li>
-              <li className="hover:text-slate-300 text-white transition-all duration-200 ease-linear">
+              <li className="hover:text-orange-400 hover:border-b border-orange-400 text-white transition-all duration-200 ease-linear">
                 <Link to="/profile">Profile</Link>
               </li>
-              <li className="relative hover:text-slate-300 text-white transition-all duration-200 ease-linear">
+              <li className="relative hover:text-orange-400 text-white transition-all duration-200 ease-linear">
                 <Link to="/cart">
                   <MdOutlineShoppingBag className="sm:text-3xl lg:text-3xl pb-1" />
                   <div className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">

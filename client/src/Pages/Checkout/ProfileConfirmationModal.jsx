@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { modalActions } from "../../store/modalSlice";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../Config/axios";
 
 const style = {
   position: "absolute",
@@ -31,6 +32,7 @@ const style = {
 
 export default function ProfileModal() {
   const isOpen = useSelector((store) => store.modal.profileModal.open);
+  const user = useSelector((store) => store.user.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -38,13 +40,19 @@ export default function ProfileModal() {
     dispatch(modalActions.closeProfileModal());
   };
 
-  const handleYes = () => {
-    navigate("/profile");
+  const handleYes = async () => {
+    const response = await axiosInstance.delete("/user/delete-account", user, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(response);
     dispatch(modalActions.closeProfileModal());
   };
 
   const handleNo = () => {
     // Add your logic for canceling the action here
+
     toast.error(
       "Sorry. You are not able to place an order if you are not create account."
     );

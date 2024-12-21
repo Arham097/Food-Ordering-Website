@@ -123,7 +123,7 @@ const ExploreMenu = () => {
         {arr.map((item, index) => {
           return (
             <div
-              className={`h-full w-10/12 flex flex-col justify-center items-center border-2 ${
+              className={`h-full w-10/12 flex flex-col justify-center items-center border-2 cursor-pointer ${
                 category === item.title ? "bg-orange-600" : "bg-[#2c2f2f]"
               } border-slate-600`}
               key={index}

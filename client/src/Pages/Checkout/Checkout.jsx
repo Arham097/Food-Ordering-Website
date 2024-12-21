@@ -6,12 +6,11 @@ import toast from "react-hot-toast";
 import { modalActions } from "../../store/modalSlice";
 import ConfirmationModal from "./ConfirmationModal";
 import textFieldSx from "./TestFieldSx";
-import ProfilleModal from "../Profile/ProfileModal";
+import ProfileConfirmationModal from "./ProfileConfirmationModal";
 
 const Checkout = () => {
   const dispatch = useDispatch();
-  // const isOpen = useSelector((store) => store.modal.confirmationModal.open);
-  const user = JSON.parse(localStorage.getItem("user")) || null;
+  const user = useSelector((store) => store.user.user);
   const items = useSelector((store) => store.bag.items);
 
   // Calculate the total amount of the items in the bag
@@ -200,7 +199,7 @@ const Checkout = () => {
           </div>
         </div>
         <ConfirmationModal handleSubmit={handleFormSubmit} />
-        <ProfilleModal />
+        <ProfileConfirmationModal />
       </div>
     </div>
   );

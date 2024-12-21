@@ -29,7 +29,7 @@ const LeftPortion = () => {
         We have a proper passion for cooking. Love is the secret ingredient that
         makes all oir meals taste better and magical.
       </div>
-      <Link to="/menu">
+      <Link to="/menu" className="w-fit">
         <Button
           variant="contained"
           size="large"
