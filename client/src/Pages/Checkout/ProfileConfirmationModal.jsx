@@ -41,12 +41,7 @@ export default function ProfileModal() {
   };
 
   const handleYes = async () => {
-    const response = await axiosInstance.delete("/user/delete-account", user, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    console.log(response);
+    navigate("/profile");
     dispatch(modalActions.closeProfileModal());
   };
 

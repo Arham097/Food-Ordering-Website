@@ -20,10 +20,10 @@ const Profile = () => {
       {!user ? (
         <ProfileForm />
       ) : (
-        <div className="min-w-full min-h-[88vh] bg-[#1E2021] ">
-          <div className="w-full h-16 bg-[#2c2f2f] flex items-center justify-between">
+        <div className="min-w-full min-h-[88vh] bg-[#1E2021] lg:flex ">
+          <div className="w-full  h-16 bg-[#2c2f2f] flex items-center justify-between lg:min-h-[90vh] lg:flex-col lg:justify-start lg:w-2/5">
             <div
-              className={`flex justify-center items-center w-1/2 h-full gap-x-2 text-white ${
+              className={`flex justify-center items-center w-1/2 h-full lg:h-16 lg:w-full gap-x-2 lg:border-b lg:border-black text-white ${
                 myOrders ? "bg-orange-500" : "bg-[#2c2f2f]"
               }
               }`}
@@ -36,7 +36,7 @@ const Profile = () => {
               <span>My Orders</span>
             </div>
             <div
-              className={`flex items-center justify-center w-1/2 h-full gap-x-2 text-white border-l-2 border-black ${
+              className={`flex items-center justify-center w-1/2 h-full gap-x-2 lg:h-16 lg:w-full lg:border-b lg:border-slate- text-white ,md:border-l-2 border-black ${
                 myAccount ? "bg-orange-500" : "bg-[#2c2f2f]"
               }`}
               onClick={() => {

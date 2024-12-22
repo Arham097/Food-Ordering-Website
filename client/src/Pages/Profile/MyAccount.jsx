@@ -70,13 +70,13 @@ const MyAccount = () => {
   };
 
   return (
-    <div className="w-full min-h-[90vh] flex flex-col ">
-      <div className="w-11/12 h-16 bg-[#2c2f2fce] flex items-center justify-center my-4 rounded-lg mx-auto ">
+    <div className="w-full min-h-[90vh] flex flex-col lg:mt-6">
+      <div className="w-11/12 h-16 bg-[#2c2f2fce] flex items-center justify-center my-4 rounded-lg mx-auto lg:w-9/12  ">
         <h1 className="text-2xl font-semibold text-white ">
           Personal Information
         </h1>
       </div>
-      <div className="w-11/12 rounded-xl mx-auto min-h-96 pt-5 bg-[#2c2f2f] ">
+      <div className="w-11/12 rounded-xl mx-auto min-h-96 md:pt-5 bg-[#2c2f2f] lg:py-5 lg:w-9/12">
         <form
           className="max-sm:w-[85%] sm:w-[85%] h-full flex flex-col  mx-auto"
           onSubmit={handleSubmit}

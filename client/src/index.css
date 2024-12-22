@@ -19,10 +19,3 @@ body {
 ::-webkit-scrollbar-track {
   background-color: #1a202c;
 }
-
-.otp-container {
-  @apply flex justify-between gap-2 w-11/12 mx-auto my-4;
-}
-.otp-container input {
-  @apply !mr-0 flex-1 py-5 outline-none;
-}
