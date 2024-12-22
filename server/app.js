@@ -4,6 +4,7 @@ const app = express();
 const globalErrorHandler = require('./controllers/errorController');
 const itemRouter = require('./routes/itemRoutes');
 const userRouter = require('./routes/userRoutes');
+const orderRouter = require('./routes/orderRoutes');
 const cors = require('cors');
 
 app.use(cors(
@@ -22,6 +23,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use('/api/v1/items', itemRouter);
 app.use('/api/v1/user', userRouter);
+app.use('/api/v1/order', orderRouter);
 
 app.use(globalErrorHandler);
 module.exports = app;

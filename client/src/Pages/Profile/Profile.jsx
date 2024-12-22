@@ -16,15 +16,15 @@ const Profile = () => {
   const [myAccount, setMyAccount] = useState(false);
   const user = useSelector((store) => store.user.user);
   return (
-    <div className="w-screen min-h-screen bg-[#1E2021] pt-16 flex justify-center items-center py-2 max-sm:pb-10">
+    <div className="w-screen md:min-h-screen bg-[#1E2021] pt-16 flex justify-center items-center lg:overflow-hidden">
       {!user ? (
         <ProfileForm />
       ) : (
         <div className="min-w-full min-h-[88vh] bg-[#1E2021] lg:flex ">
-          <div className="w-full  h-16 bg-[#2c2f2f] flex items-center justify-between lg:min-h-[90vh] lg:flex-col lg:justify-start lg:w-2/5">
+          <div className="w-full  h-16 bg-[#2c2f2f] flex items-center justify-between lg:h-[97vh] lg:flex-col lg:justify-start lg:w-[420px]  ">
             <div
-              className={`flex justify-center items-center w-1/2 h-full lg:h-16 lg:w-full gap-x-2 lg:border-b lg:border-black text-white ${
-                myOrders ? "bg-orange-500" : "bg-[#2c2f2f]"
+              className={`flex justify-center items-center w-1/2 h-full lg:h-16  lg:w-full gap-x-2 lg:border-b cursor-pointer lg:border-black text-white ${
+                myOrders ? "bg-orange-500" : "bg-[#2c2f2f] "
               }
               }`}
               onClick={() => {
@@ -36,7 +36,7 @@ const Profile = () => {
               <span>My Orders</span>
             </div>
             <div
-              className={`flex items-center justify-center w-1/2 h-full gap-x-2 lg:h-16 lg:w-full lg:border-b lg:border-slate- text-white ,md:border-l-2 border-black ${
+              className={`flex items-center justify-center w-1/2 h-full gap-x-2 cursor-pointer lg:h-16 lg:w-full lg:border-b lg:border-slate- text-white ,md:border-l-2 border-black ${
                 myAccount ? "bg-orange-500" : "bg-[#2c2f2f]"
               }`}
               onClick={() => {

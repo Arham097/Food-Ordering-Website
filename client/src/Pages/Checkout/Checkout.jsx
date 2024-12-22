@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { TextField } from "@mui/material";
 import toast from "react-hot-toast";
@@ -7,11 +7,42 @@ import { modalActions } from "../../store/modalSlice";
 import ConfirmationModal from "./ConfirmationModal";
 import textFieldSx from "./TestFieldSx";
 import ProfileConfirmationModal from "./ProfileConfirmationModal";
+import axiosInstance from "../../Config/axios";
 
 const Checkout = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector((store) => store.user.user);
   const items = useSelector((store) => store.bag.items);
+  const user2 = JSON.parse(localStorage.getItem("user"));
+
+  const [formData, setFormData] = useState({
+    fullname: "",
+    email: "",
+    phone: "",
+    address: "",
+    special_instructions: "",
+  });
+
+  useEffect(() => {
+    if (user2) {
+      setFormData({
+        fullname: user2.fullname,
+        email: user2.email,
+        phone: user2.phone,
+        address: "",
+        special_instructions: "",
+      });
+    }
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   // Calculate the total amount of the items in the bag
   const totalAmount = useSelector((store) => store.bag.totalAmount);
@@ -21,22 +52,55 @@ const Checkout = () => {
   const total = totalAmount + GST;
 
   const formRef = useRef(null);
-  const handleFormSubmit = (event) => {
+
+  const handleFormSubmit = async (event) => {
+    // localStorage.setItem("event", JSON.stringify(event));
+    console.log(event);
     event.preventDefault();
     const form = formRef.current;
     if (form.checkValidity()) {
       const formData = new FormData(form);
       const formDataObject = Object.fromEntries(formData.entries());
+      const order = {
+        customerDetails: {},
+        orderDetails: {},
+      };
+      order.customerDetails = formDataObject;
+      order.orderDetails.items = items.map((item) => ({
+        item: item._id,
+        quantity: item.quantity,
+      }));
+      order.orderDetails.totalAmount = totalAmount;
+      order.user = user2._id;
 
       // Save the form data to localStorage
-      localStorage.setItem("formData", JSON.stringify(formDataObject));
+      localStorage.setItem("order", JSON.stringify(order));
 
-      form.submit();
-      return true;
+      try {
+        const response = await axiosInstance.post("/order/create", order, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (response.status === 201) {
+          toast.success("Order placed successfully!");
+          navigate("/profile");
+          localStorage.removeItem("order");
+        }
+      } catch (error) {
+        if (error.response) {
+          toast.error(
+            `Error: ${error.response.data.message}` || "Something went wrong!"
+          );
+        } else {
+          toast.error("Server unreachable. Please try again later.");
+        }
+      }
+      // return true;
     } else {
       toast.error("Please fill all the fields correctly!");
       form.reportValidity();
-      return false;
+      // return false;
     }
   };
   return (
@@ -68,44 +132,54 @@ const Checkout = () => {
               <TextField
                 required
                 id="outlined-basic"
+                value={formData.fullname}
+                onChange={handleInputChange}
                 type="text"
                 label="Full Name"
-                name="Full Name"
+                name="fullname"
                 variant="outlined"
                 sx={textFieldSx}
               />
               <TextField
                 required
                 id="outlined-basic"
+                value={formData.email}
+                onChange={handleInputChange}
                 type="email"
                 label="Email"
-                name="Email"
+                name="email"
                 variant="outlined"
                 sx={textFieldSx}
               />
               <TextField
                 required
                 id="outlined-basic"
+                value={formData.phone}
+                onChange={handleInputChange}
                 type="tel"
-                label="Phone Number (03xx-xxxxxxx)"
-                name="Phone Number"
+                label="Phone Number (03xxxxxxxxx)"
+                name="phone"
                 variant="outlined"
                 sx={textFieldSx}
               />
               <TextField
                 required
                 id="outlined-basic"
+                value={formData.address}
+                onChange={handleInputChange}
                 type="text"
                 label="Address"
-                name="Address"
+                name="address"
                 variant="outlined"
                 sx={textFieldSx}
               />
               <TextField
                 id="outlined-basic"
                 type="text"
+                value={formData.special_instructions}
+                onChange={handleInputChange}
                 label="Special Instructions"
-                name="Special Instructions"
+                name="special_instructions"
                 variant="outlined"
                 sx={textFieldSx}
               />
@@ -115,7 +189,7 @@ const Checkout = () => {
                 <input
                   type="radio"
                   required
-                  name="payment_type"
+                  name="paymentMethod"
                   value="Cash on Delivery"
                   id=""
                   className="w-5 h-5 bg-orange-500"
@@ -132,7 +206,7 @@ const Checkout = () => {
               <div className="w-full h-1/2  flex  items-center gap-x-7 px-5 accent-orange-500">
                 <input
                   type="radio"
-                  name="payment_type"
+                  name="paymentMethod"
                   value="Credit/Debit Card"
                   id=""
                   className="w-5 h-5 accent-orange-500"
@@ -187,7 +261,7 @@ const Checkout = () => {
             <button
               className="bg-orange-500 w-full h-full font-bold text-white hover:scale-100 transition-all duration-300 rounded-md"
               onClick={() => {
-                if (!user) {
+                if (!user2) {
                   dispatch(modalActions.openProfileModal());
                   return;
                 }

@@ -20,8 +20,14 @@ const ProfileForm = () => {
         },
       });
       if (response.status === 201) {
-        toast.success("Account Created Succesfully");
+        toast.success(
+          "Account Created Succesfully. Now You can go to checkout page to place your order."
+        );
         dispatch(userActions.setUser(response?.data?.data?.user));
+        localStorage.setItem(
+          "user",
+          JSON.stringify(response?.data?.data?.user)
+        );
       }
     } catch (error) {
       if (error.response) {

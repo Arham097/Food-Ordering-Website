@@ -37,16 +37,14 @@ export default function ConfirmationModal({ handleSubmit }) {
   };
 
   const handleYes = (event) => {
-    const success = handleSubmit(event);
-    if (success) {
-      toast.success("Order placed successfully!");
-    }
+    event.preventDefault();
+    handleSubmit(event);
     dispatch(modalActions.closeConfirmationModal());
   };
 
   const handleNo = () => {
     // Add your logic for canceling the action here
-    toast.error("Order canceled.");
+    toast.error("Order completion canceled.");
     dispatch(modalActions.closeConfirmationModal());
   };
 
