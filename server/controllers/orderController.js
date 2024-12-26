@@ -15,8 +15,9 @@ exports.createOrder = asyncErrorHandler(async (req, res) => {
 exports.getOrders = asyncErrorHandler(async (req, res, next) => {
   const user = req.params.user;
   console.log(user);
-  const orders = await Order.find({ user }).populate('orderDetails.items.item');
-  if (!orders) {
+  const orders = await Order.find({ user }).populate('orderDetails.items.item').sort({ 'orderDetails.orderDate': -1 });
+
+  if (!orders || orders.length === 0) {
     const error = new CustomError('No orders found', 404);
     return next(error);
   }

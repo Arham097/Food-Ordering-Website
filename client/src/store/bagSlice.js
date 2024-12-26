@@ -47,8 +47,11 @@ const bagSlice = createSlice({
         itemToDecrement.quantity--;
         state.totalAmount -= itemToDecrement.price;
       }
-    }
-
+    },
+    clearBag: (state) => {
+      state.items = [];
+      state.totalAmount = 0
+    },
   }
 });
 

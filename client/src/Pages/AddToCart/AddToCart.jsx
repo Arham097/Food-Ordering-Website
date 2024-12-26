@@ -10,7 +10,7 @@ const AddToCart = () => {
   const GST = parseInt(totalAmount * 0.15);
   const total = totalAmount + GST;
   return (
-    <div className="w-screen min-h-screen pt-20 bg-[#1E2021]">
+    <div className="w-screen min-h-screen pt-20 bg-[#1E2021] pb-10">
       {items.length !== 0 ? (
         <div className="grid max-sm:grid-cols-1 md:grid-cols-[2fr_1fr] w-full min-h-[70vh]">
           <div className="w-full min-h-[40vh] ">

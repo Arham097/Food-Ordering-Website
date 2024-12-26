@@ -7,6 +7,7 @@ import Header from "./Components/Header/Header";
 import Menu from "./Pages/Menu/Menu";
 import Checkout from "./Pages/Checkout/Checkout";
 import { Toaster } from "react-hot-toast";
+import Footer from "./Components/Footer/Footer";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="*" element={<div>Not Found</div>} />
       </Routes>
+      <Footer />
       <Toaster />
     </BrowserRouter>
   );

@@ -25,7 +25,6 @@ const Card = ({ item }) => {
   const decrement = () => {
     console.log(item);
     if (count === 1) {
-      dispatch(bagActions.removeItem(item._id));
       return;
     }
     setCount(count - 1);

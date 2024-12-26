@@ -31,6 +31,14 @@ const Header = () => {
       <header className="w-full h-16 mx-auto flex flex-col justify-between items-center  px-1 border-b bg-[#1E2021] border-slate-700 fixed z-50 top-0">
         <div className="w-full h-full flex justify-between items-center ">
           <div className="flex gap-x-3 ml-5 items-center ">
+            <span>
+              <img
+                src="/Brand Logo/HasanBites.png"
+                alt="Hasan Bites"
+                width={67}
+                height={67}
+              />
+            </span>
             <h1 className="text-2xl font-bold mt-1 max-md:text-xl  text-white transition-all duration-150 ease-linear">
               Hasan Bites
             </h1>

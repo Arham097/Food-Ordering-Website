@@ -12,9 +12,9 @@ import axiosInstance from "../../Config/axios";
 const Checkout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((store) => store.user.user);
+  const user2 = useSelector((store) => store.user.user);
   const items = useSelector((store) => store.bag.items);
-  const user2 = JSON.parse(localStorage.getItem("user"));
+  // const user2 = JSON.parse(localStorage.getItem("user"));
 
   const [formData, setFormData] = useState({
     fullname: "",
@@ -70,7 +70,7 @@ const Checkout = () => {
         item: item._id,
         quantity: item.quantity,
       }));
-      order.orderDetails.totalAmount = totalAmount;
+      order.orderDetails.totalAmount = total;
       order.user = user2._id;
 
       // Save the form data to localStorage

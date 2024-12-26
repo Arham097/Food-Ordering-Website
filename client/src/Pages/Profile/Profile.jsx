@@ -16,8 +16,8 @@ const Profile = () => {
   const [myAccount, setMyAccount] = useState(false);
   const user = useSelector((store) => store.user.user);
   return (
-    <div className="w-screen md:min-h-screen bg-[#1E2021] pt-16 flex justify-center items-center lg:overflow-hidden">
-      {user ? (
+    <div className="w-screen md:min-h-screen bg-[#1E2021] pt-16 flex justify-center items-center lg:overflow-hidden pb-10">
+      {!user ? (
         <ProfileForm />
       ) : (
         <div className="min-w-full min-h-[88vh] bg-[#1E2021] lg:flex ">

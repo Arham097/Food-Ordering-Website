@@ -1,116 +1,121 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axiosInstance from "../../Config/axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { bagActions } from "../../store/bagSlice";
 
 const MyOrders = () => {
-  const orders = [
-    {
-      customerDetails: {
-        fullname: "Arham",
-        address: "L-1608, Sector 1, Shadabad, Surjani Town.",
-        email: "arhamhasan70@gmail.com",
-        phone: "03102647209",
-        paymentMethod: "Cash on Delivery",
-      },
-      orderDetails: {
-        items: [
-          {
-            item: {
-              _id: "672c8a86169e950a16de345d",
-              image: "./Pizzas/fajita.jpg",
-              price: 1400,
-              name: "Fajita Pizza",
-              description:
-                "A spicy twist with Mexican flavors, topped with grilled fajita chicken or beef, bell peppers, onions, and jalapeños.",
-              category: "Pizzas",
-            },
-            quantity: 1,
-            _id: "6768351a2c8958a9172d5652",
-          },
-          {
-            item: {
-              _id: "672c8a86169e950a16de345e",
-              image: "./Pizzas/pepperoni.jpg",
-              price: 1450,
-              name: "Pepperoni Pizza",
-              description:
-                "A classic pizza with thin slices of spicy pepperoni, mozzarella cheese, and a rich tomato sauce.",
-              category: "Pizzas",
-            },
-            quantity: 1,
-            _id: "6768351a2c8958a9172d5653",
-          },
-        ],
-        totalAmount: 2850,
-        status: "Pending",
-        orderDate: "2024-12-22T15:49:46.651Z",
-      },
-      _id: "6768351a2c8958a9172d5651",
-      user: "676834f02c8958a9172d5647",
-      __v: 0,
-    },
-    {
-      customerDetails: {
-        fullname: "Arham",
-        address: "L-1608, Sector 1, Shadabad, Surjani Town.",
-        email: "arhamhasan70@gmail.com",
-        phone: "03102647209",
-        paymentMethod: "Cash on Delivery",
-      },
-      orderDetails: {
-        items: [
-          {
-            item: {
-              _id: "672c8a86169e950a16de345d",
-              image: "./Pizzas/fajita.jpg",
-              price: 1400,
-              name: "Fajita Pizza",
-              description:
-                "A spicy twist with Mexican flavors, topped with grilled fajita chicken or beef, bell peppers, onions, and jalapeños.",
-              category: "Pizzas",
-            },
-            quantity: 1,
-            _id: "6768351a2c8958a9172d5652",
-          },
-          {
-            item: {
-              _id: "672c8a86169e950a16de345e",
-              image: "./Pizzas/pepperoni.jpg",
-              price: 1450,
-              name: "Pepperoni Pizza",
-              description:
-                "A classic pizza with thin slices of spicy pepperoni, mozzarella cheese, and a rich tomato sauce.",
-              category: "Pizzas",
-            },
-            quantity: 1,
-            _id: "6768351a2c8958a9172d5653",
-          },
-          {
-            item: {
-              _id: "672c8a86169e950a16de345e",
-              image: "./Pizzas/pepperoni.jpg",
-              price: 1450,
-              name: "Pepperoni Pizza",
-              description:
-                "A classic pizza with thin slices of spicy pepperoni, mozzarella cheese, and a rich tomato sauce.",
-              category: "Pizzas",
-            },
-            quantity: 1,
-            _id: "6768351a2c8958a9172d5653",
-          },
-        ],
-        totalAmount: 2850,
-        status: "Delivered",
-        orderDate: "2024-12-22T15:49:46.651Z",
-      },
-      _id: "6768351a2c8958a9172d5651",
-      user: "676834f02c8958a9172d5647",
-      __v: 0,
-    },
-  ];
-  const user = useSelector((store) => store.user.user);
-  const user2 = JSON.parse(localStorage.getItem("user"));
+  const dispatch = useDispatch();
+  const [orders, setOrders] = useState([]);
+  // const orders = [
+  //   {
+  //     customerDetails: {
+  //       fullname: "Arham",
+  //       address: "L-1608, Sector 1, Shadabad, Surjani Town.",
+  //       email: "arhamhasan70@gmail.com",
+  //       phone: "03102647209",
+  //       paymentMethod: "Cash on Delivery",
+  //     },
+  //     orderDetails: {
+  //       items: [
+  //         {
+  //           item: {
+  //             _id: "672c8a86169e950a16de345d",
+  //             image: "./Pizzas/fajita.jpg",
+  //             price: 1400,
+  //             name: "Fajita Pizza",
+  //             description:
+  //               "A spicy twist with Mexican flavors, topped with grilled fajita chicken or beef, bell peppers, onions, and jalapeños.",
+  //             category: "Pizzas",
+  //           },
+  //           quantity: 1,
+  //           _id: "6768351a2c8958a9172d5652",
+  //         },
+  //         {
+  //           item: {
+  //             _id: "672c8a86169e950a16de345e",
+  //             image: "./Pizzas/pepperoni.jpg",
+  //             price: 1450,
+  //             name: "Pepperoni Pizza",
+  //             description:
+  //               "A classic pizza with thin slices of spicy pepperoni, mozzarella cheese, and a rich tomato sauce.",
+  //             category: "Pizzas",
+  //           },
+  //           quantity: 1,
+  //           _id: "6768351a2c8958a9172d5653",
+  //         },
+  //       ],
+  //       totalAmount: 2850,
+  //       status: "Pending",
+  //       orderDate: "2024-12-22T15:49:46.651Z",
+  //     },
+  //     _id: "6768351a2c8958a9172d5651",
+  //     user: "676834f02c8958a9172d5647",
+  //     __v: 0,
+  //   },
+  //   {
+  //     customerDetails: {
+  //       fullname: "Arham",
+  //       address: "L-1608, Sector 1, Shadabad, Surjani Town.",
+  //       email: "arhamhasan70@gmail.com",
+  //       phone: "03102647209",
+  //       paymentMethod: "Cash on Delivery",
+  //     },
+  //     orderDetails: {
+  //       items: [
+  //         {
+  //           item: {
+  //             _id: "672c8a86169e950a16de345d",
+  //             image: "./Pizzas/fajita.jpg",
+  //             price: 1400,
+  //             name: "Fajita Pizza",
+  //             description:
+  //               "A spicy twist with Mexican flavors, topped with grilled fajita chicken or beef, bell peppers, onions, and jalapeños.",
+  //             category: "Pizzas",
+  //           },
+  //           quantity: 1,
+  //           _id: "6768351a2c8958a9172d5652",
+  //         },
+  //         {
+  //           item: {
+  //             _id: "672c8a86169e950a16de345e",
+  //             image: "./Pizzas/pepperoni.jpg",
+  //             price: 1450,
+  //             name: "Pepperoni Pizza",
+  //             description:
+  //               "A classic pizza with thin slices of spicy pepperoni, mozzarella cheese, and a rich tomato sauce.",
+  //             category: "Pizzas",
+  //           },
+  //           quantity: 1,
+  //           _id: "6768351a2c8958a9172d5653",
+  //         },
+  //         {
+  //           item: {
+  //             _id: "672c8a86169e950a16de345e",
+  //             image: "./Pizzas/pepperoni.jpg",
+  //             price: 1450,
+  //             name: "Pepperoni Pizza",
+  //             description:
+  //               "A classic pizza with thin slices of spicy pepperoni, mozzarella cheese, and a rich tomato sauce.",
+  //             category: "Pizzas",
+  //           },
+  //           quantity: 1,
+  //           _id: "6768351a2c8958a9172d5653",
+  //         },
+  //       ],
+  //       totalAmount: 2850,
+  //       status: "Delivered",
+  //       orderDate: "2024-12-22T15:49:46.651Z",
+  //     },
+  //     _id: "6768351a2c8958a9172d5651",
+  //     user: "676834f02c8958a9172d5647",
+  //     __v: 0,
+  //   },
+  // ];
+  let orders2 = [];
+
+  const user2 = useSelector((store) => store.user.user) || null;
+  // const user2 = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
     if (user2) {
       getOrders();
@@ -119,23 +124,24 @@ const MyOrders = () => {
 
   const getOrders = async () => {
     try {
-      const response = await axiosInstance.get(`orders/getOrders/${user2._id}`);
+      const response = await axiosInstance.get(`order/getOrders/${user2._id}`);
       if (response.status === 200) {
-        orders = response.data.data.orders;
+        setOrders(response.data.data.orders);
+        dispatch(bagActions.clearBag());
       }
     } catch (error) {
       if (error.response) {
         // Server responded with a status code other than 2xx
-        toast.error(
-          `Error: ${error.response.data.message || "Something went wrong!"}`
-        );
+        // console.log(error.response);
+        // toast.error(
+        //   `Error: ${error.response.data.message || "Something went wrong!"}`
+        // );
       } else {
         // No response from server
         toast.error("Server unreachable. Please try again later.");
       }
     }
   };
-
   return (
     <div className="w-full min-h-[90vh] flex flex-col ">
       <div className="max-sm:w-full sm:w-11/12 max-sm:rounded-none h-16 bg-[#2c2f2fce] flex items-center justify-center my-7 rounded-lg mx-auto lg:w-10/12 ">
@@ -150,7 +156,7 @@ const MyOrders = () => {
               return (
                 <div
                   key={key}
-                  className="w-[90%] min-h-96  bg-[#3d4141] flex flex-col items-center justify-between py-3 my-3 mb-2 rounded-lg mx-auto gap-y-3 px-2 "
+                  className="w-[90%] min-h-96  bg-[#3d4141] flex flex-col items-center justify-between py-3 my-3 mb-4 rounded-lg mx-auto gap-y-3 px-2 "
                 >
                   <div className=" w-full h-1/2 sm:text-sm">
                     <h1 className="max-sm:text-sm text-white font-semibold">
@@ -199,7 +205,7 @@ const MyOrders = () => {
                   </div>
                   {order.orderDetails.items.map((item, index, key) => {
                     return (
-                      <div className="w-full min-h-24 flex  gap-3 ring-1  rounded-lg  ring-slate-800 shadow-2xl">
+                      <div className="w-full h-24 flex  gap-3 ring-1  rounded-lg  ring-slate-800 shadow-2xl">
                         <div className="text-white text-center w-8 h-cover flex items-center justify-center">
                           {index + 1}.
                         </div>

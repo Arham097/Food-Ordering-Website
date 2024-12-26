@@ -30,9 +30,9 @@ const Rightportion = () => {
         className="lg:absolute z-20 lg:w-8/12 "
       />
       <img
-        src="./Home Right Section/logo.png"
+        src="./Brand Logo/HasanBites.png"
         alt=""
-        className="lg:absolute lg:w-2/5 right-0 -top-6 sm:hidden lg:block"
+        className="lg:absolute lg:w-[35%] right-0 top-4  sm:hidden lg:block"
       />
       <div className="lg:absolute lg:bottom-2 lg:w-4/6 lg:h-3/6 bg-orange-600 lg:z-10 lg:right-0 md:hidden lg:block">
         <div className="lg:absolute lg:right-0 lg:p-2 text-white lg:w-52 flex flex-col gap-2">

@@ -52,7 +52,6 @@ const MyAccount = () => {
         dispatch(userActions.setUser(response?.data?.data?.user));
       }
     } catch (error) {
-      console.log(error);
       if (error.response) {
         // Server responded with a status code other than 2xx
         toast.error(
