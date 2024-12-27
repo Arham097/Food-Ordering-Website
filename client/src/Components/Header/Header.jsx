@@ -11,6 +11,8 @@ const Header = () => {
   const [toggle, setToggle] = useState(false);
   const headerLinks = useRef(null);
   const items = useSelector((state) => state.bag.items);
+  const user = useSelector((store) => store.user.user);
+  console.log(user);
 
   useGSAP(() => {
     if (!toggle) return;
@@ -44,25 +46,50 @@ const Header = () => {
             </h1>
           </div>
           <nav className="mr-5 max-sm:hidden">
-            <ul className="flex gap-x-12 font-semibold pt-2 max-lg:gap-x-10 text-[1rem] mr-2  ">
-              <li className="hover:text-orange-400 hover:border-b border-orange-400 text-white transition-all duration-200 ease-linear">
-                <Link to="/">Home</Link>
-              </li>
-              <li className="hover:text-orange-400 hover:border-b border-orange-400  text-white transition-all duration-200 ease-linear">
-                <Link to="/menu">Menu</Link>
-              </li>
-              <li className="hover:text-orange-400 hover:border-b border-orange-400 text-white transition-all duration-200 ease-linear">
-                <Link to="/profile">Profile</Link>
-              </li>
-              <li className="relative hover:text-orange-400 text-white transition-all duration-200 ease-linear">
-                <Link to="/cart">
-                  <MdOutlineShoppingBag className="sm:text-3xl lg:text-3xl pb-1" />
-                  <div className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                    {items.length}
-                  </div>
-                </Link>
-              </li>
-            </ul>
+            {user?.role === "admin" ? (
+              <ul className="flex gap-x-12 font-semibold pt-2 max-lg:gap-x-10 text-[1rem] mr-2  ">
+                <li className="hover:text-orange-400 hover:border-b border-orange-400 text-white transition-all duration-200 ease-linear">
+                  <Link to="/">Home</Link>
+                </li>
+                <li className="hover:text-orange-400 hover:border-b border-orange-400  text-white transition-all duration-200 ease-linear">
+                  <Link to="/menu">Menu</Link>
+                </li>
+                <li className="hover:text-orange-400 hover:border-b border-orange-400 text-white transition-all duration-200 ease-linear">
+                  <Link to="/profile">Profile</Link>
+                </li>
+                <li className="hover:text-orange-400 hover:border-b border-orange-400 text-white transition-all duration-200 ease-linear">
+                  <Link to="/Dashboard">Dashboard</Link>
+                </li>
+                <li className="relative hover:text-orange-400 text-white transition-all duration-200 ease-linear">
+                  <Link to="/cart">
+                    <MdOutlineShoppingBag className="sm:text-3xl lg:text-3xl pb-1" />
+                    <div className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                      {items.length}
+                    </div>
+                  </Link>
+                </li>
+              </ul>
+            ) : (
+              <ul className="flex gap-x-12 font-semibold pt-2 max-lg:gap-x-10 text-[1rem] mr-2  ">
+                <li className="hover:text-orange-400 hover:border-b border-orange-400 text-white transition-all duration-200 ease-linear">
+                  <Link to="/">Home</Link>
+                </li>
+                <li className="hover:text-orange-400 hover:border-b border-orange-400  text-white transition-all duration-200 ease-linear">
+                  <Link to="/menu">Menu</Link>
+                </li>
+                <li className="hover:text-orange-400 hover:border-b border-orange-400 text-white transition-all duration-200 ease-linear">
+                  <Link to="/profile">Profile</Link>
+                </li>
+                <li className="relative hover:text-orange-400 text-white transition-all duration-200 ease-linear">
+                  <Link to="/cart">
+                    <MdOutlineShoppingBag className="sm:text-3xl lg:text-3xl pb-1" />
+                    <div className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                      {items.length}
+                    </div>
+                  </Link>
+                </li>
+              </ul>
+            )}
           </nav>
           <div className="sm:hidden">
             {!toggle ? (
@@ -84,31 +111,64 @@ const Header = () => {
       {toggle && (
         <div className="w-full bg-[#2C2F2F] flex flex-col transition-all duration-1000 ease-in-out sm:hidden mt-14">
           <nav>
-            <ul
-              className="flex flex-col gap-y-2 font-bold py-3 text-white "
-              ref={headerLinks}
-            >
-              <li className="hover:text-slate-500 border-b-2 px-7 py-3">
-                <Link to="/" onClick={toggleMenu}>
-                  Home
-                </Link>
-              </li>
-              <li className="hover:text-slate-500 border-b-2 px-7 py-3">
-                <Link to="/menu" onClick={toggleMenu}>
-                  Menu
-                </Link>
-              </li>
-              <li className="hover:text-slate-500 border-b-2  px-7 py-3">
-                <Link to="/profile" onClick={toggleMenu}>
-                  Profile
-                </Link>
-              </li>
-              <li className="hover:text-slate-500  px-7 py-3">
-                <Link to="/cart" onClick={toggleMenu}>
-                  Cart
-                </Link>
-              </li>
-            </ul>
+            {user.role === "admin" ? (
+              <ul
+                className="flex flex-col gap-y-2 font-bold py-3 text-white "
+                ref={headerLinks}
+              >
+                <li className="hover:text-slate-500 border-b-2 px-7 py-3">
+                  <Link to="/" onClick={toggleMenu}>
+                    Home
+                  </Link>
+                </li>
+                <li className="hover:text-slate-500 border-b-2 px-7 py-3">
+                  <Link to="/menu" onClick={toggleMenu}>
+                    Menu
+                  </Link>
+                </li>
+                <li className="hover:text-slate-500 border-b-2  px-7 py-3">
+                  <Link to="/profile" onClick={toggleMenu}>
+                    Profile
+                  </Link>
+                </li>
+                <li className="hover:text-slate-500 border-b-2  px-7 py-3">
+                  <Link to="/dashboard" onClick={toggleMenu}>
+                    Dashboard
+                  </Link>
+                </li>
+                <li className="hover:text-slate-500  px-7 py-3">
+                  <Link to="/cart" onClick={toggleMenu}>
+                    Cart
+                  </Link>
+                </li>
+              </ul>
+            ) : (
+              <ul
+                className="flex flex-col gap-y-2 font-bold py-3 text-white "
+                ref={headerLinks}
+              >
+                <li className="hover:text-slate-500 border-b-2 px-7 py-3">
+                  <Link to="/" onClick={toggleMenu}>
+                    Home
+                  </Link>
+                </li>
+                <li className="hover:text-slate-500 border-b-2 px-7 py-3">
+                  <Link to="/menu" onClick={toggleMenu}>
+                    Menu
+                  </Link>
+                </li>
+                <li className="hover:text-slate-500 border-b-2  px-7 py-3">
+                  <Link to="/profile" onClick={toggleMenu}>
+                    Profile
+                  </Link>
+                </li>
+                <li className="hover:text-slate-500  px-7 py-3">
+                  <Link to="/cart" onClick={toggleMenu}>
+                    Cart
+                  </Link>
+                </li>
+              </ul>
+            )}
           </nav>
         </div>
       )}

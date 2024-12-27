@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="w-full relative bottom-0 h-fit flex flex-col  ">
+    <footer className="w-full relative bottom-0 max-lg:h-fit h-64 flex flex-col  ">
       <div className="w-full h-4/5 bg-[#EA580C] flex justify-center items-center gap-x-5 max-sm:h-fit">
         <div className="h-full w-fit flex items-center mt-1 max-sm:w-full">
           <img
@@ -13,16 +13,16 @@ const Footer = () => {
           />
         </div>
         <div className="max-sm:flex-col max-md:flex-col flex gap-x-4">
-          <div className="flex flex-col gap-2 h-full w-72 lg:mt-5 max-sm:mt-2  max-sm:w-[55vw] max-sm:mr-5 sm:mt-3">
+          <div className="flex flex-col gap-2 h-full w-72 max-sm:mt-2  max-sm:w-[55vw] max-sm:mr-5 sm:mt-3 lg:mt-0">
             <h1 className="max-sm:text-xl font-bold text-white border-b-2 w-fit sm:text-xl lg:text-2xl">
               Hasan Bites
             </h1>
             <p className="text-white text-justify italic max-sm:text-sm">
-              Hasan Bites is a food delivery service that delivers food at your
-              doorstep. We provide a variety of food items to our customers.
+              Cravings calling? Hasan Bites answers with a delicious variety of
+              food, delivered fresh and fast. Your happiness, our recipe!
             </p>
           </div>
-          <div className="h-full flex flex-col lg:ml-5 lg:mt-5 max-sm:mt-2 max-sm:mb-2 max-sm:mr-5 sm:mb-3 max-lg:ml-5 max-md:ml-0  sm:mt-2">
+          <div className="h-full flex flex-col lg:ml-5 max-sm:mt-2 max-sm:mb-2 max-sm:mr-5 sm:mb-3 max-lg:ml-5 max-md:ml-0  sm:mt-2 lg:mt-0">
             <h1 className="text-white lg:text-2xl font-bold w-fit max-sm:text-xl border-b-2 sm:text-xl ">
               Contact Us
             </h1>

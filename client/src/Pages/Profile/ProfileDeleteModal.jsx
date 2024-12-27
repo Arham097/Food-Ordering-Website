@@ -34,7 +34,6 @@ const style = {
 export default function ProfileDeleteModal() {
   const isOpen = useSelector((store) => store.modal.profileDeleteModal.open);
   const user = useSelector((store) => store.user.user);
-  console.log(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

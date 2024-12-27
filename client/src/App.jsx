@@ -8,6 +8,7 @@ import Menu from "./Pages/Menu/Menu";
 import Checkout from "./Pages/Checkout/Checkout";
 import { Toaster } from "react-hot-toast";
 import Footer from "./Components/Footer/Footer";
+import Dashboard from "./Pages/Dashboard/Dashboard";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/cart" element={<AddToCart />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="*" element={<div>Not Found</div>} />
       </Routes>
       <Footer />

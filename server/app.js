@@ -5,7 +5,10 @@ const globalErrorHandler = require('./controllers/errorController');
 const itemRouter = require('./routes/itemRoutes');
 const userRouter = require('./routes/userRoutes');
 const orderRouter = require('./routes/orderRoutes');
+const menuRouter = require('./routes/menuRoutes');
 const cors = require('cors');
+const path = require('path');
+const fs = require('fs');
 
 app.use(cors(
   {
@@ -14,6 +17,10 @@ app.use(cors(
   }
 ));
 app.use(express.json());
+app.use(express.urlencoded({ extended: "false" }));
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
@@ -24,6 +31,9 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api/v1/items', itemRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/order', orderRouter);
+app.use('/api/v1/menu', menuRouter);
+
+
 
 app.use(globalErrorHandler);
 module.exports = app;
