@@ -12,7 +12,6 @@ const Header = () => {
   const headerLinks = useRef(null);
   const items = useSelector((state) => state.bag.items);
   const user = useSelector((store) => store.user.user);
-  console.log(user);
 
   useGSAP(() => {
     if (!toggle) return;

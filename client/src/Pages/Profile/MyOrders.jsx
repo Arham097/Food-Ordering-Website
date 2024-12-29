@@ -155,8 +155,8 @@ const MyOrders = () => {
             {orders.map((order, key) => {
               return (
                 <div
-                  key={key}
                   className="w-[90%] min-h-96  bg-[#3d4141] flex flex-col items-center justify-between py-3 my-3 mb-4 rounded-lg mx-auto gap-y-3 px-2 "
+                  key={key}
                 >
                   <div className=" w-full h-1/2 sm:text-sm">
                     <h1 className="max-sm:text-sm text-white font-semibold">
@@ -205,7 +205,10 @@ const MyOrders = () => {
                   </div>
                   {order.orderDetails.items.map((item, index, key) => {
                     return (
-                      <div className="w-full h-24 flex  gap-3 ring-1  rounded-lg  ring-slate-800 shadow-2xl">
+                      <div
+                        className="w-full h-24 flex  gap-3 ring-1  rounded-lg  ring-slate-800 shadow-2xl "
+                        key={key}
+                      >
                         <div className="text-white text-center w-8 h-cover flex items-center justify-center">
                           {index + 1}.
                         </div>
