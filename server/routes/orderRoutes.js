@@ -12,14 +12,8 @@ router.route('/getOrders/:user')
 router.route('/getOrder/all')
   .get(orderController.getAllOrders)
 
-router.route('/getOrder/pending')
-  .get(orderController.getPendingOrders)
+router.route('/updateStatus/:id/:status')
+  .patch(orderController.updateOrderStatus);
 
-router.route('/getOrder/inprogress')
-  .get(orderController.getInprogressOrders)
-router.route('/getOrder/completed')
-  .get(orderController.getCompletedOrders)
 
-router.route('/getOrder/delivered')
-  .get(orderController.getDeliveredOrders)
 module.exports = router;

@@ -16,7 +16,7 @@ const Dashboard = () => {
             setMenu(false);
             setOrders(false);
           }}
-          className={`w-1/2 h-full flex items-center justify-center max-sm:border-r-2 lg:border-b-2 border-black lg:w-full lg:h-20 lg:text-xl cursor-pointer max-lg:border-r-2 max-sm:text-sm px-1 text-center ${
+          className={`w-1/2 h-full flex items-center justify-center max-sm:border-r-2 lg:border-b-2 border-black lg:w-full lg:h-20 lg:text-lg cursor-pointer max-lg:border-r-2 max-sm:text-sm px-1 text-center ${
             items ? "bg-orange-500" : "bg-[#2c2f2f] "
           }`}
         >
@@ -28,7 +28,7 @@ const Dashboard = () => {
             setMenu(true);
             setOrders(false);
           }}
-          className={`w-1/2 h-full flex items-center justify-center lg:w-full lg:h-20 lg:border-b-2 border-black lg:text-xl cursor-pointer max-lg:border-r-2 max-sm:text-sm text-center px-1 ${
+          className={`w-1/2 h-full flex items-center justify-center lg:w-full lg:h-20 lg:border-b-2 border-black lg:text-lg cursor-pointer max-lg:border-r-2 max-sm:text-sm text-center px-1 ${
             menu ? "bg-orange-500" : "bg-[#2c2f2f] "
           }`}
         >
@@ -40,7 +40,7 @@ const Dashboard = () => {
             setMenu(false);
             setOrders(true);
           }}
-          className={`w-1/2 h-full flex items-center justify-center lg:w-full lg:h-20 lg:border-b-2 border-black lg:text-xl cursor-pointer max-sm:text-sm px-1 text-center ${
+          className={`w-1/2 h-full flex items-center justify-center lg:w-full lg:h-20 lg:border-b-2 border-black lg:text-lg cursor-pointer max-sm:text-sm px-1 text-center ${
             orders ? "bg-orange-500" : "bg-[#2c2f2f] "
           }`}
         >

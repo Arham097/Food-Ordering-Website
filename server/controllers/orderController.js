@@ -44,62 +44,18 @@ exports.getAllOrders = asyncErrorHandler(async (req, res, next) => {
   })
 });
 
-exports.getPendingOrders = asyncErrorHandler(async (req, res, next) => {
-  const orders = await Order.find({ 'orderDetails.status': 'Pending' }).populate('orderDetails.items.item').sort({ 'orderDetails.orderDate': -1 });
-  if (!orders || orders.length === 0) {
-    const error = new CustomError('No Pending orders found', 404);
-    return next(error);
-  }
-  res.status(200).json({
-    status: 'success',
-    count: orders.length,
-    data: {
-      orders
-    }
-  })
-});
+exports.updateOrderStatus = asyncErrorHandler(async (req, res, next) => {
+  const { id, status } = req.params;
 
-exports.getInprogressOrders = asyncErrorHandler(async (req, res, next) => {
-  const orders = await Order.find({ 'orderDetails.status': 'In Progress' }).populate('orderDetails.items.item').sort({ 'orderDetails.orderDate': -1 });
-  if (!orders || orders.length === 0) {
-    const error = new CustomError('No orders found that is (In Progress)', 404);
+  const order = await Order.findByIdAndUpdate(id, { 'orderDetails.status': status }, { new: true });
+  if (!order) {
+    const error = new CustomError("No Order found with this Id", 404);
     return next(error);
   }
   res.status(200).json({
     status: 'success',
-    count: orders.length,
     data: {
-      orders
+      order
     }
   })
-});
-
-exports.getCompletedOrders = asyncErrorHandler(async (req, res, next) => {
-  const orders = await Order.find({ 'orderDetails.status': 'Completed' }).populate('orderDetails.items.item').sort({ 'orderDetails.orderDate': -1 });
-  if (!orders || orders.length === 0) {
-    const error = new CustomError('No Completed orders found', 404);
-    return next(error);
-  }
-  res.status(200).json({
-    status: 'success',
-    count: orders.length,
-    data: {
-      orders
-    }
-  })
-});
-
-exports.getDeliveredOrders = asyncErrorHandler(async (req, res, next) => {
-  const orders = await Order.find({ 'orderDetails.status': 'Delivered' }).populate('orderDetails.items.item').sort({ 'orderDetails.orderDate': -1 });
-  if (!orders || orders.length === 0) {
-    const error = new CustomError('No Delivered orders found', 404);
-    return next(error);
-  }
-  res.status(200).json({
-    status: 'success',
-    count: orders.length,
-    data: {
-      orders
-    }
-  })
-});
+})

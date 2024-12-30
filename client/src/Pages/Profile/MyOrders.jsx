@@ -203,11 +203,11 @@ const MyOrders = () => {
                       </span>
                     </p>
                   </div>
-                  {order.orderDetails.items.map((item, index, key) => {
+                  {order.orderDetails.items.map((item, index) => {
                     return (
                       <div
                         className="w-full h-24 flex  gap-3 ring-1  rounded-lg  ring-slate-800 shadow-2xl "
-                        key={key}
+                        key={index}
                       >
                         <div className="text-white text-center w-8 h-cover flex items-center justify-center">
                           {index + 1}.

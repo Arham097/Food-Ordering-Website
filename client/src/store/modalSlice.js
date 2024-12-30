@@ -13,9 +13,15 @@ const modalSlice = createSlice({
     profileModal: {
       open: false,
     },
+    orderModal: {
+      open: false,
+      orderId: null,
+      status: null,
+    },
     profileDeleteModal: {
       open: false
-    }
+    },
+
   },
   reducers: {
     openConfirmationModal: (state) => {
@@ -46,10 +52,19 @@ const modalSlice = createSlice({
     },
     closeProfileDeleteModal: (state) => {
       state.profileDeleteModal.open = false;
-    }
-
+    },
+    openOrderModal: (state, action) => {
+      state.orderModal.open = true;
+      state.orderModal.orderId = action?.payload?.orderId;
+      state.orderModal.status = action?.payload?.status;
+      console.log(state.orderModal.open)
+    },
+    closeOrderModal: (state) => {
+      state.orderModal.open = false;
+      state.orderModal.orderId = null;
+      state.orderModal.status = null;
+    },
   }
-
 })
 
 export const modalActions = modalSlice.actions;
