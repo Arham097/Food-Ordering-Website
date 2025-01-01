@@ -91,8 +91,7 @@ const OrderManagement = () => {
                 No <span className="text-orange-500">Orders </span>Yet!
               </h1>
               <p className="sm:text-xl text-center mx-20">
-                You haven't placed any orders yet. Go ahead and place your first
-                order.
+                There is no order to show right now. Please check back later.
               </p>
             </div>
           )}

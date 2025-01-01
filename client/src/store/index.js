@@ -5,12 +5,14 @@ import modalSlice, { modalActions } from './modalSlice';
 import userSlice from './userSlice';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import loaderSlice from './loaderSlice';
 
 const rootReducer = combineReducers({
   items: itemsSlice.reducer,
   bag: bagSlice.reducer,
   modal: modalSlice.reducer,
   user: userSlice.reducer,
+  loader: loaderSlice.reducer,
 });
 
 const persistConfig = {
@@ -28,13 +30,6 @@ const store = configureStore({
 });
 
 
-console.log('Redux Store:', store.getState());
-
-// Dispatch a modal action to test
-store.dispatch(modalActions.closeOrderModal());
-
-// Log after action dispatch
-console.log('Updated State:', store.getState());
 // Persistor for Redux Persist
 const persistor = persistStore(store);
 

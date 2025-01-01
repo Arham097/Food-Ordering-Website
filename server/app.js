@@ -9,6 +9,7 @@ const menuRouter = require('./routes/menuRoutes');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const route = require('./routes/routeUpload');
 
 app.use(cors(
   {
@@ -32,7 +33,6 @@ app.use('/api/v1/items', itemRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/order', orderRouter);
 app.use('/api/v1/menu', menuRouter);
-
 
 
 app.use(globalErrorHandler);

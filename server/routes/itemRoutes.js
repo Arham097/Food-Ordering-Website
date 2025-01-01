@@ -8,6 +8,9 @@ const router = express.Router();
 router.route('/')
   .get(itemsController.getAllItems);
 
+router.route('/sortedItems')
+  .get(itemsController.getSortedItems);
+
 router.route('/burgers')
   .get(itemsController.getBurgers);
 
@@ -19,4 +22,6 @@ router.route('/drinks')
 
 router.route('/chickens')
   .get(itemsController.getChickens);
+
+
 module.exports = router;

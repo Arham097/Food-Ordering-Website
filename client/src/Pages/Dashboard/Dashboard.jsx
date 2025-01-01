@@ -8,15 +8,15 @@ const Dashboard = () => {
   const [menu, setMenu] = useState(false);
   const [orders, setOrders] = useState(false);
   return (
-    <div className="w-full md:h-auto pt-16 bg-[#1e2021] flex max-lg:flex-col relative">
-      <div className="lg:w-1/3 max-sm:w-full sm:w-full  max-lg:h-16 bg-[#2c2f2f] flex text-white font-semibold lg:flex-col lg:justify-start lg:h-auto lg:min-h-[97vh] ">
+    <div className="w-full md:h-auto pt-16 bg-[#1e2021] flex max-lg:flex-col relative ">
+      <div className="lg:w-1/3 max-sm:w-full sm:w-full  max-lg:h-16 bg-[#2c2f2f] flex text-white font-semibold lg:flex-col lg:justify-start lg:h-auto lg:min-h-[97vh] max-lg:fixed z-20 ">
         <div
           onClick={() => {
             setItems(true);
             setMenu(false);
             setOrders(false);
           }}
-          className={`w-1/2 h-full flex items-center justify-center max-sm:border-r-2 lg:border-b-2 border-black lg:w-full lg:h-20 lg:text-lg cursor-pointer max-lg:border-r-2 max-sm:text-sm px-1 text-center ${
+          className={`w-1/2 flex items-center justify-center max-sm:border-r-2 lg:border-b-2 border-black lg:w-full lg:h-20 lg:text-lg cursor-pointer max-lg:border-r-2 max-sm:text-sm px-1 text-center transition-all duration-500 ease-linear ${
             items ? "bg-orange-500" : "bg-[#2c2f2f] "
           }`}
         >
@@ -28,7 +28,7 @@ const Dashboard = () => {
             setMenu(true);
             setOrders(false);
           }}
-          className={`w-1/2 h-full flex items-center justify-center lg:w-full lg:h-20 lg:border-b-2 border-black lg:text-lg cursor-pointer max-lg:border-r-2 max-sm:text-sm text-center px-1 ${
+          className={`w-1/2 h-full flex items-center justify-center lg:w-full lg:h-20 lg:border-b-2 border-black lg:text-lg cursor-pointer max-lg:border-r-2 max-sm:text-sm text-center px-1 transition-all duration-500 ease-linear ${
             menu ? "bg-orange-500" : "bg-[#2c2f2f] "
           }`}
         >
@@ -40,14 +40,14 @@ const Dashboard = () => {
             setMenu(false);
             setOrders(true);
           }}
-          className={`w-1/2 h-full flex items-center justify-center lg:w-full lg:h-20 lg:border-b-2 border-black lg:text-lg cursor-pointer max-sm:text-sm px-1 text-center ${
+          className={`w-1/2 h-full flex items-center justify-center lg:w-full lg:h-20 lg:border-b-2 border-black lg:text-lg cursor-pointer max-sm:text-sm px-1 text-center transition-all duration-500 ease-linear ${
             orders ? "bg-orange-500" : "bg-[#2c2f2f] "
           }`}
         >
           Order Management
         </div>
       </div>
-      <div className="w-2/3 h-full  max-sm:w-full  max-sm:min-h-screen sm:w-full sm:min-h-full">
+      <div className="w-2/3 h-full  max-sm:w-full  max-sm:min-h-screen sm:w-full sm:min-h-full max-lg:mt-16">
         {items && <ItemsManagement />}
         {menu && <MenuManagement />}
         {orders && <OrderManagement />}

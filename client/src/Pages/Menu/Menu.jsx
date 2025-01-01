@@ -20,14 +20,12 @@ const Menu = () => {
 
   useEffect(() => {
     fetchMenu();
-  }, []);
+  }, [menuUrl]);
 
-  // console.log(menu.current.src);
   const fetchMenu = async () => {
     try {
       const response = await axiosInstance.get("/menu/getMenu");
-      const menuPic = response.data.data.file;
-      const menuUrl = `http://localhost:3000/uploads/${menuPic}`;
+      const menuUrl = response.data.data.menu[0].url;
       setMenuUrl(menuUrl);
       if (menu.current) {
         menu.current.src = menuUrl;
@@ -40,13 +38,9 @@ const Menu = () => {
   const handleDownload = async () => {
     if (menuUrl) {
       try {
-        // Fetch the file as a binary blob
-        const response = await axiosInstance.get(menuUrl, {
-          responseType: "blob",
-        });
-
         // Create a blob URL
-        const blob = new Blob([response.data], { type: "image/png" });
+        const response = await fetch(menuUrl);
+        const blob = await response.blob();
         const blobUrl = URL.createObjectURL(blob);
 
         // Create a temporary link and trigger the download
@@ -58,10 +52,13 @@ const Menu = () => {
         // Revoke the blob URL to free memory
         URL.revokeObjectURL(blobUrl);
       } catch (error) {
-        toast.error("Failed to download menu:", error);
+        toast.error("Failed to download menu");
       }
+    } else {
+      toast.error("Menu URL is not available");
     }
   };
+
   return (
     <div className="bg-[#1E2021] w-screen min-h-screen flex justify-center mt-16 pb-10">
       <div className="max-sm:w-10/12 sm:w-3/4 md:sw-7/12 lg:w-5/12 h-full flex flex-col gap-4 mt-5">

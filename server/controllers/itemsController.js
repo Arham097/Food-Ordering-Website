@@ -20,6 +20,40 @@ exports.getAllItems = asyncErrorHandler(async (req, res, next) => {
   })
 })
 
+exports.getSortedItems = asyncErrorHandler(async (req, res, next) => {
+  const customOrders = ['Burgers', 'Pizzas', 'Chicken', 'Drinks'];
+  const items = await Item.aggregate([
+    {
+      $addFields: {
+        customSortOrder: {
+          $indexOfArray: [customOrders, '$category'],
+        },
+      },
+    },
+    {
+      $sort: {
+        customSortOrder: 1
+      },
+    },
+    {
+      $project: {
+        customSortOrder: 0,
+      },
+    }
+  ]);
+
+  if (!items) {
+    const error = new CustomError("No Items found", 404);
+    return next(error);
+  };
+  res.status(200).json({
+    status: 'success',
+    data: {
+      items
+    }
+  })
+})
+
 exports.getBurgers = asyncErrorHandler(async (req, res, next) => {
   const burgers = await Item.find({ category: "Burgers" });
 
@@ -80,3 +114,4 @@ exports.getChickens = asyncErrorHandler(async (req, res, next) => {
   })
 }
 )
+

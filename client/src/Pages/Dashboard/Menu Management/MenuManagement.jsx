@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import axiosInstance from "../../../Config/axios";
+import { useDispatch, useSelector } from "react-redux";
+import { loaderActions } from "../../../store/loaderSlice";
 
 const MenuManagement = () => {
   const [previewImage, setPreviewImage] = useState(null);
@@ -9,6 +11,10 @@ const MenuManagement = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [file, setFile] = useState(null);
   const fileRef = useRef(null);
+  const dipatch = useDispatch();
+  const { setLoadingTrue, setLoadingFalse } = loaderActions;
+  const loader = useSelector((state) => state.loader.loading);
+  console.log(loader);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -43,6 +49,7 @@ const MenuManagement = () => {
   };
 
   const handleSubmit = async () => {
+    dipatch(setLoadingTrue());
     if (file) {
       try {
         // Create a FormData object to send the file in a multipart/form-data request
@@ -58,6 +65,7 @@ const MenuManagement = () => {
 
         // Handle success response
         if (response.status === 200) {
+          dipatch(setLoadingFalse());
           setPreviewImage(null);
           setFile(null);
           if (fileRef.current) {
@@ -75,7 +83,7 @@ const MenuManagement = () => {
     }
   };
   return (
-    <div className="w-full min-h-96 py-7 flex justify-center items-center ">
+    <div className="w-full min-h-96 py-7 flex justify-center items-center relative">
       <div className="flex max-sm:flex-col sm:flex-col items-center gap-y-4 w-full   ">
         <h1 className="font-bold max-sm:text-4xl sm:text-4xl text-center text-white ">
           Upload New Menu Image
@@ -147,6 +155,14 @@ const MenuManagement = () => {
               X
             </button>
           </div>
+        </div>
+      )}
+      {loader && (
+        <div className="w-full h-full absolute z-20 bg-black flex flex-col justify-center items-center  bg-opacity-70">
+          <h1 className="text-white lg:text-6xl font-semibold">
+            Please Wait...{" "}
+          </h1>
+          <div className="loader animate-spin"></div>
         </div>
       )}
     </div>
