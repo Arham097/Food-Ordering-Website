@@ -25,8 +25,11 @@ const modalSlice = createSlice({
       open: false,
       itemId: null,
       itemName: null
+    },
+    itemEditModal: {
+      open: false,
+      itemId: null,
     }
-
   },
   reducers: {
     openConfirmationModal: (state) => {
@@ -79,6 +82,14 @@ const modalSlice = createSlice({
       state.itemDeleteModal.open = false;
       state.itemDeleteModal.itemId = null;
       state.itemDeleteModal.itemName = null;
+    },
+    openItemEditModal: (state, action) => {
+      state.itemEditModal.open = true;
+      state.itemEditModal.itemId = action.payload;
+    },
+    closeItemEditModal: (state) => {
+      state.itemEditModal.open = false;
+      state.itemEditModal.itemId = null;
     }
   }
 })

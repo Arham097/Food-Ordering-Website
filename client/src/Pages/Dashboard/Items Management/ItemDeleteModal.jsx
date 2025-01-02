@@ -27,12 +27,10 @@ const style = {
   textAlign: "center", // Center-align text and buttons
 };
 
-export default function ItemDeleteModal() {
+export default function ItemDeleteModal({ fetchItems }) {
   const { open, itemId, itemName } = useSelector(
     (store) => store.modal.itemDeleteModal
   );
-  console.log(open);
-  // const user = useSelector((store) => store.user.user);
   const dispatch = useDispatch();
 
   const handleClose = () => {
@@ -41,17 +39,21 @@ export default function ItemDeleteModal() {
 
   const handleYes = async () => {
     try {
-      const response = await axiosInstance.delete(
-        `/items/deleteItem/${itemId}`
-      );
+      const response = await axiosInstance.patch(`/items/deleteItem/${itemId}`);
       if (response.status === 204) {
-        toast.error("Item Deleted Successfully");
+        toast.success("Item Deleted Successfully");
+        dispatch(modalActions.closeItemDeleteModal());
+        fetchItems();
       }
-    } catch (err) {}
-
-    navigate("/Dashboard");
-
-    dispatch(modalActions.closeItemDeleteModal());
+    } catch (err) {
+      if (err.response) {
+        toast.error(
+          `Error: ${err.response.data.message}` || "Something went wrong!"
+        );
+      } else {
+        toast.error("Server unreachable. Try Again Later.");
+      }
+    }
   };
 
   const handleNo = () => {
@@ -111,11 +113,8 @@ export default function ItemDeleteModal() {
                   md: 60, // large screens
                 },
                 fontSize: "1rem",
-                fontWeight: "500",
+                fontWeight: "700",
                 fontFamily: "Poppins",
-                "&:hover": {
-                  bgcolor: "#F97316",
-                },
               }}
               // color="success"
               onClick={handleYes}
@@ -137,10 +136,10 @@ export default function ItemDeleteModal() {
                 },
                 fontSize: "1rem",
                 bgcolor: "#F97316",
-                fontWeight: "500",
+                fontWeight: "700",
                 fontFamily: "Poppins",
                 "&:hover": {
-                  bgcolor: "#F97316",
+                  bgcolor: "#DC630F",
                 },
               }}
               onClick={handleNo}

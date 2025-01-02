@@ -151,6 +151,7 @@ const ExploreMenu = () => {
               sx={{
                 maxWidth: "400px",
                 // minWidth: "300px",
+                position: "relative",
                 marginBottom: "35px",
                 marginRight: "10px",
                 backgroundColor: "#2c2f2fac",
@@ -202,6 +203,13 @@ const ExploreMenu = () => {
                   </div>
                 </CardActions>
               </CardActionArea>
+              {!item.isActive && (
+                <div className="w-full h-full absolute bg-black opacity-70 z-20 top-0 flex justify-center items-center lg:text-5xl text-center px-5 font-bold italic ">
+                  <h1 className="animate-pulse ">
+                    This Item is Not Available Right Now
+                  </h1>
+                </div>
+              )}
             </Card>
           );
         })}

@@ -21,6 +21,25 @@ exports.getAllItems = asyncErrorHandler(async (req, res, next) => {
   })
 })
 
+exports.getItemByID = asyncErrorHandler(async (req, res, next) => {
+  const id = req.params.id;
+  if (!id) {
+    const error = new CustomError("ID Required for fetching an Item.", 400);
+    return next(error);
+  };
+  const item = await Item.findById(id);
+  if (!item) {
+    const error = new CustomError("No Items Found with this ID", 404);
+    return next(error);
+  }
+  res.status(200).json({
+    status: "success",
+    data: {
+      item
+    }
+  })
+})
+
 exports.getSortedItems = asyncErrorHandler(async (req, res, next) => {
   const customOrders = ['Burgers', 'Pizzas', 'Chicken', 'Drinks'];
   const items = await Item.aggregate([
@@ -44,7 +63,6 @@ exports.getSortedItems = asyncErrorHandler(async (req, res, next) => {
     {
       $match: {
         isDeleted: false,
-        isActive: true,
       },
     }
   ]);
@@ -61,8 +79,51 @@ exports.getSortedItems = asyncErrorHandler(async (req, res, next) => {
   })
 })
 
+exports.editItem = asyncErrorHandler(async (req, res, next) => {
+  const id = req.params.id;
+  console.log(id);
+  const { itemname, description, price } = req.body;
+  console.log(req.body);
+
+  if (!id) {
+    return next(new CustomError("ID Required for Editing an Item.", 400));
+  }
+
+  const item = await Item.findById(id);
+  if (!item) {
+    return next(new CustomError("No Items Found with this ID", 404));
+  }
+
+  let updatedData = { name: itemname, description, price };
+
+  if (req.file) {
+    try {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        public_id: `Hasan Bites/${itemname}`,
+        folder: `Hasan Bites/${item.category}`,
+      });
+      updatedData.image = result.secure_url; // Add the image URL to the update data
+    } catch (err) {
+      return next(new CustomError("Failed to upload image to Cloudinary.", 500));
+    }
+  }
+
+  const updatedItem = await Item.findByIdAndUpdate(id, updatedData, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      item: updatedItem,
+    },
+  });
+});
+
+
 exports.getBurgers = asyncErrorHandler(async (req, res, next) => {
-  const burgers = await Item.find({ category: "Burgers", isDeleted: false, isActive: true });
+  const burgers = await Item.find({ category: "Burgers", isDeleted: false });
 
   if (!burgers) {
     const err = new CustomError("No burger items found!");
@@ -77,7 +138,7 @@ exports.getBurgers = asyncErrorHandler(async (req, res, next) => {
 })
 
 exports.getPizzas = asyncErrorHandler(async (req, res, next) => {
-  const pizzas = await Item.find({ category: "Pizzas", isDeleted: false, isActive: true });
+  const pizzas = await Item.find({ category: "Pizzas", isDeleted: false });
 
   if (!pizzas) {
     const err = new CustomError("No pizza items found!");
@@ -92,7 +153,7 @@ exports.getPizzas = asyncErrorHandler(async (req, res, next) => {
 });
 
 exports.getDrinks = asyncErrorHandler(async (req, res, next) => {
-  const drinks = await Item.find({ category: "Drinks", isDeleted: false, isActive: true });
+  const drinks = await Item.find({ category: "Drinks", isDeleted: false });
 
   if (!drinks) {
     const err = new CustomError("No drink Items found!");
@@ -107,7 +168,7 @@ exports.getDrinks = asyncErrorHandler(async (req, res, next) => {
 });
 
 exports.getChickens = asyncErrorHandler(async (req, res, next) => {
-  const chicken = await Item.find({ category: "Chicken", isDeleted: false, isActive: true });
+  const chicken = await Item.find({ category: "Chicken", isDeleted: false });
 
   if (!chicken) {
     const err = new CustomError("No chicken Items found!");
@@ -164,22 +225,27 @@ exports.deleteItem = asyncErrorHandler(async (req, res, next) => {
   })
 })
 
-exports.inActiveItem = asyncErrorHandler(async (req, res, next) => {
+exports.toggleActiveItem = asyncErrorHandler(async (req, res, next) => {
   const id = req.params.id;
   console.log(id);
   if (!id) {
     const error = new CustomError("ID Required for Deactivation of an Item.", 400);
     return next(error);
   }
-  const item = await Item.findByIdAndUpdate({ _id: id }, { isActive: false }, { new: true });
+  const item = await Item.findById({ _id: id });
   if (!item) {
     const error = new CustomError("No Items Found with this ID", 404);
     return next(error);
   }
+  const newActiveStatus = !item.isActive;
+
+  const updatedItem = await Item.findByIdAndUpdate({ _id: id }, { $set: { isActive: newActiveStatus } }, {
+    new: true,
+  });
   return res.status(200).json({
     status: "success",
     data: {
-      item
+      item: updatedItem
     }
   })
 })

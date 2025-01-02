@@ -18,6 +18,7 @@ import {
 import { loaderActions } from "../../../store/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ItemDeleteModal from "./ItemDeleteModal";
+import ItemEditModal from "./ItemEditModal";
 
 const ItemsManagement = () => {
   const [items, setItems] = useState([]);
@@ -49,7 +50,6 @@ const ItemsManagement = () => {
   };
 
   const handleAddItem = () => {
-    console.log("Add Item");
     setIsModalOpen(true);
   };
 
@@ -113,7 +113,7 @@ const ItemsManagement = () => {
         }`}
       >
         {items.map((item, key) => (
-          <ItemCard item={item} key={key} />
+          <ItemCard item={item} key={key} fetchItems={fetchItems} />
         ))}
       </div>
       {isModalOpen && (
@@ -224,6 +224,7 @@ const ItemsManagement = () => {
           <div className="loader animate-spin"></div>
         </div>
       )}
+      <ItemEditModal fetchItems={fetchItems} />
     </div>
   );
 };
