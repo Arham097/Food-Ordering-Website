@@ -94,7 +94,7 @@ const MenuManagement = () => {
           ref={fileRef}
           name="menu_image"
           onChange={handleImageChange}
-          className="border rounded p-2  text-white font-semibold border-orange-500"
+          className="border rounded p-2  text-white font-semibold border-orange-500 max-sm:w-80"
         />
         {previewImage && (
           <div className="border rounded-lg relative p-3 mt-4 border-orange-500">
@@ -119,15 +119,15 @@ const MenuManagement = () => {
             )}
           </div>
         )}
-        <div className="flex gap-x-4 max-sm:w-1/2 sm:w-1/2 md:w-1/3 ">
+        <div className="flex gap-x-4 max-sm:w-full sm:w-1/2 md:w-1/3 justify-center ">
           <button
-            className="bg-orange-500 w-full h-full font-bold text-white hover:scale-105 transition-all duration-300 rounded-md  py-3 text-[1.1rem] cursor-pointer"
+            className="bg-orange-500 w-full max-sm:w-1/3 h-full font-bold text-white hover:scale-105 transition-all duration-300 rounded-md  py-3 text-[1.1rem] cursor-pointer"
             onClick={handleSubmit}
           >
             Save
           </button>
           <button
-            className="bg-red-600 w-full h-full font-bold text-white hover:scale-105 transition-all duration-300 rounded-md  py-3 text-[1.1rem] cursor-pointer "
+            className="bg-red-600 w-full h-full max-sm:w-1/3 font-bold text-white hover:scale-105 transition-all duration-300 rounded-md  py-3 text-[1.1rem] cursor-pointer "
             onClick={handleDelete}
           >
             Delete File
@@ -158,8 +158,8 @@ const MenuManagement = () => {
         </div>
       )}
       {loader && (
-        <div className="w-full h-full absolute z-20 bg-black flex flex-col justify-center items-center  bg-opacity-70">
-          <h1 className="text-white lg:text-6xl font-semibold">
+        <div className="w-full h-full fixed lg:top-0  max-lg:top-32 z-5 lg:pt-20 bg-black flex flex-col justify-center items-center  bg-opacity-70">
+          <h1 className="text-white lg:text-5xl max-lg:text-4xl font-semibold">
             Please Wait...{" "}
           </h1>
           <div className="loader animate-spin"></div>

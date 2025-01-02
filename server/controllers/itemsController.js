@@ -1,11 +1,12 @@
 const Item = require("../models/itemsModel");
 const asyncErrorHandler = require("../utils/asyncErrorHandler");
 const CustomError = require("../utils/customError");
+const cloudinary = require('../utils/cloudinary');
 
 
 
 exports.getAllItems = asyncErrorHandler(async (req, res, next) => {
-  const items = await Item.find();
+  const items = await Item.find({ isDeleted: false, isActive: true });
 
   if (!items) {
     const err = new CustomError("No items found!");
@@ -39,6 +40,12 @@ exports.getSortedItems = asyncErrorHandler(async (req, res, next) => {
       $project: {
         customSortOrder: 0,
       },
+    },
+    {
+      $match: {
+        isDeleted: false,
+        isActive: true,
+      },
     }
   ]);
 
@@ -55,7 +62,7 @@ exports.getSortedItems = asyncErrorHandler(async (req, res, next) => {
 })
 
 exports.getBurgers = asyncErrorHandler(async (req, res, next) => {
-  const burgers = await Item.find({ category: "Burgers" });
+  const burgers = await Item.find({ category: "Burgers", isDeleted: false, isActive: true });
 
   if (!burgers) {
     const err = new CustomError("No burger items found!");
@@ -70,7 +77,7 @@ exports.getBurgers = asyncErrorHandler(async (req, res, next) => {
 })
 
 exports.getPizzas = asyncErrorHandler(async (req, res, next) => {
-  const pizzas = await Item.find({ category: "Pizzas" });
+  const pizzas = await Item.find({ category: "Pizzas", isDeleted: false, isActive: true });
 
   if (!pizzas) {
     const err = new CustomError("No pizza items found!");
@@ -85,7 +92,7 @@ exports.getPizzas = asyncErrorHandler(async (req, res, next) => {
 });
 
 exports.getDrinks = asyncErrorHandler(async (req, res, next) => {
-  const drinks = await Item.find({ category: "Drinks" });
+  const drinks = await Item.find({ category: "Drinks", isDeleted: false, isActive: true });
 
   if (!drinks) {
     const err = new CustomError("No drink Items found!");
@@ -100,7 +107,7 @@ exports.getDrinks = asyncErrorHandler(async (req, res, next) => {
 });
 
 exports.getChickens = asyncErrorHandler(async (req, res, next) => {
-  const chicken = await Item.find({ category: "Chicken" });
+  const chicken = await Item.find({ category: "Chicken", isDeleted: false, isActive: true });
 
   if (!chicken) {
     const err = new CustomError("No chicken Items found!");
@@ -115,3 +122,64 @@ exports.getChickens = asyncErrorHandler(async (req, res, next) => {
 }
 )
 
+exports.addItem = asyncErrorHandler(async (req, res, next) => {
+  console.log(req.body);
+  console.log(req.file);
+  const { itemname, description, price, category } = req.body;
+
+  const result = await cloudinary.uploader.upload(req.file.path, {
+    public_id: `Hasan Bites/${itemname}`,
+    folder: `Hasan Bites/${category}`,
+  })
+
+  const image = result.secure_url;
+
+  const item = await Item.create({ image, price, name: itemname, description, category });
+
+  res.status(201).json({
+    status: "success",
+    data: {
+      item
+    }
+  })
+
+});
+
+exports.deleteItem = asyncErrorHandler(async (req, res, next) => {
+  const id = req.params.id;
+  console.log(id);
+  if (!id) {
+    const error = new CustomError("ID Required for Deletion of an Item.", 400);
+    return next(error);
+  }
+  const item = await Item.findByIdAndUpdate({ _id: id }, { isDeleted: true });
+  if (!item) {
+    const error = new CustomError("No Items Found with this ID", 404);
+    return next(error);
+  }
+
+  return res.status(204).json({
+    status: "success",
+    data: null
+  })
+})
+
+exports.inActiveItem = asyncErrorHandler(async (req, res, next) => {
+  const id = req.params.id;
+  console.log(id);
+  if (!id) {
+    const error = new CustomError("ID Required for Deactivation of an Item.", 400);
+    return next(error);
+  }
+  const item = await Item.findByIdAndUpdate({ _id: id }, { isActive: false }, { new: true });
+  if (!item) {
+    const error = new CustomError("No Items Found with this ID", 404);
+    return next(error);
+  }
+  return res.status(200).json({
+    status: "success",
+    data: {
+      item
+    }
+  })
+})

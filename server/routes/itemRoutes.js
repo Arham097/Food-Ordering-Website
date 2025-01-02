@@ -1,7 +1,7 @@
 const express = require('express');
 
 const itemsController = require('../controllers/itemsController');
-
+const upload = require("../utils/multer")
 
 const router = express.Router();
 
@@ -23,5 +23,11 @@ router.route('/drinks')
 router.route('/chickens')
   .get(itemsController.getChickens);
 
+router.post('/add', upload.single("item_image"), itemsController.addItem);
 
+router.route('/deleteItem/:id')
+  .patch(itemsController.deleteItem);
+
+router.route('/inactiveItem/:id')
+  .patch(itemsController.inActiveItem);
 module.exports = router;

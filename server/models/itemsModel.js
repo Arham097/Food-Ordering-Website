@@ -23,6 +23,14 @@ const itemSchema = new mongoose.Schema({
     required: [true, 'Please provide the category of the item!'],
     enum: ['Pizzas', 'Burgers', 'Drinks', 'Chicken'],
   },
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Item = mongoose.model('Item', itemSchema);

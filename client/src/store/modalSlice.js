@@ -21,6 +21,11 @@ const modalSlice = createSlice({
     profileDeleteModal: {
       open: false
     },
+    itemDeleteModal: {
+      open: false,
+      itemId: null,
+      itemName: null
+    }
 
   },
   reducers: {
@@ -64,6 +69,17 @@ const modalSlice = createSlice({
       state.orderModal.orderId = null;
       state.orderModal.status = null;
     },
+    openItemDeleteModal: (state, action) => {
+      console.log(action.payload);
+      state.itemDeleteModal.open = true;
+      state.itemDeleteModal.itemId = action?.payload?.id;
+      state.itemDeleteModal.itemName = action?.payload?.name;
+    },
+    closeItemDeleteModal: (state) => {
+      state.itemDeleteModal.open = false;
+      state.itemDeleteModal.itemId = null;
+      state.itemDeleteModal.itemName = null;
+    }
   }
 })
 

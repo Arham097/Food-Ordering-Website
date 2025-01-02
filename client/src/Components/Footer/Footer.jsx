@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="w-full relative bottom-0 max-lg:h-fit h-64 flex flex-col  ">
+    <footer className="w-full relative bottom-0 max-lg:h-fit h-64 flex flex-col z-20  ">
       <div className="w-full h-4/5 bg-[#EA580C] flex justify-center items-center gap-x-5 max-sm:h-fit">
         <div className="h-full w-fit flex items-center mt-1 max-sm:w-full">
           <img

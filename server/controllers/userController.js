@@ -71,6 +71,7 @@ exports.deleteAccount = asyncErrorHandler(async (req, res, next) => {
   const user = await User.findByIdAndDelete(_id);
   if (!user) {
     const error = new CustomError("User not found", 404);
+    return next(error);
   }
   console.log(user);
 

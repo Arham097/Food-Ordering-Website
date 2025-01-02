@@ -1,10 +1,17 @@
 import React from "react";
+import { modalActions } from "../../../store/modalSlice";
+import { useDispatch } from "react-redux";
+import ItemDeleteModal from "./ItemDeleteModal";
 
 const ItemCard = ({ item }) => {
+  const dispatch = useDispatch();
   const handleEdit = () => {
     console.log("Edit");
   };
   const handleDelete = () => {
+    dispatch(
+      modalActions.openItemDeleteModal({ id: item._id, name: item.name })
+    );
     console.log("Delete");
   };
 
@@ -34,6 +41,7 @@ const ItemCard = ({ item }) => {
           Delete
         </button>
       </div>
+      <ItemDeleteModal />
     </div>
   );
 };

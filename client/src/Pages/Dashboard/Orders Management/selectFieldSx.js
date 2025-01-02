@@ -1,7 +1,7 @@
 const selectFieldSx = {
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
-      borderColor: "#F97316", // Border color
+      borderColor: "white", // Border color
     },
     "&:hover fieldset": {
       borderColor: "white",
@@ -26,6 +26,7 @@ const selectFieldSx = {
   "& .MuiSvgIcon-root": {
     color: "white", // Dropdown arrow color
   },
+  marginTop: "15px"
 };
 
 const menuPropsStyles = {
