@@ -8,6 +8,7 @@ import { useState } from "react";
 import { selectFieldSx, menuPropsStyles } from "./selectFieldSx";
 import axiosInstance from "../../../Config/axios";
 import OrderCard from "./OrderCard";
+import { socket } from "../../Profile/ProfileForm";
 
 const OrderManagement = () => {
   const [orderState, setOrderState] = useState("All");
@@ -40,6 +41,13 @@ const OrderManagement = () => {
 
   useEffect(() => {
     fetchOrders();
+    socket.on("newOrder", () => {
+      fetchOrders();
+    });
+
+    return () => {
+      socket.off("newOrder");
+    };
   }, []);
 
   return (

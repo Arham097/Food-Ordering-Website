@@ -17,11 +17,13 @@ import React, { useEffect, useRef, useState } from "react";
 import axiosInstance from "../../Config/axios";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { bagActions } from "../../store/bagSlice.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { socket } from "../../Config/socket";
+import { itemActions } from "../../store/itemSlice.js";
 gsap.registerPlugin(ScrollTrigger);
 
 const ExploreMenu = () => {
-  const [category, setCategory] = useState("Pizzas");
+  const [category, setCategory] = useState("");
   const [burgerCards, setBurgerCards] = useState([]);
   const [pizzaCards, setPizzaCards] = useState([]);
   const [drinkCards, setDrinkCards] = useState([]);
@@ -30,10 +32,29 @@ const ExploreMenu = () => {
   const categoryItemsContainer = useRef(null);
   const [index, setIndex] = useState(0);
   const dispatch = useDispatch();
+  const savedCategory = useSelector((store) => store.items.category);
 
   useEffect(() => {
+    setCategory(savedCategory);
     getItems();
+    socket.on("itemStatusUpdated", (itemCategory) => {
+      fetchCategoryItems(itemCategory);
+    });
+    return () => {
+      socket.off("itemStatusUpdated");
+    };
   }, []);
+
+  const fetchCategoryItems = async (itemCategory) => {
+    try {
+      const response = await axiosInstance.get(`/items/${itemCategory}`);
+      if (response.status === 200) {
+        setCategoryCard(response.data.data[itemCategory]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getItems = async () => {
     try {
@@ -46,16 +67,29 @@ const ExploreMenu = () => {
       setDrinkCards(drinks?.data?.data?.drinks);
       setChickenCards(chickens?.data?.data?.chicken);
       setCategoryCard(pizzas?.data?.data?.pizzas);
+
+      if (savedCategory === "Burgers") {
+        setCategoryCard(burgers?.data?.data?.burgers);
+        setIndex(1);
+      }
+      if (savedCategory === "Drinks") {
+        setCategoryCard(drinks?.data?.data?.drinks);
+        setIndex(2);
+      }
+      if (savedCategory === "Chicken") {
+        setCategoryCard(chickens?.data?.data?.chicken);
+        setIndex(3);
+      }
+      if (savedCategory === "Pizzas") {
+        setCategoryCard(pizzas?.data?.data?.pizzas);
+        setIndex(0);
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleItems = (item) => {
-    // Retrieve and parse the existing items from localStorage
-    // const items = JSON.parse(localStorage.getItem("Items")) || [];
-    // const updatedItems = [...items, item];
-    // localStorage.setItem("Items", JSON.stringify(updatedItems));
     dispatch(bagActions.addItems(item));
   };
 
@@ -88,6 +122,7 @@ const ExploreMenu = () => {
 
   const handleCategory = (category, index) => {
     setCategory(category);
+    dispatch(itemActions.setCategory(category));
     setIndex(index);
     switch (category) {
       case "Pizzas":
@@ -113,7 +148,7 @@ const ExploreMenu = () => {
       y: 250,
       ease: "power4.out",
     });
-  }, [category]);
+  }, [savedCategory]);
   return (
     <div className="flex flex-col gap-6 overflow-hidden">
       <h1 className="max-sm:text-2xl sm:text-3xl md:text-4xl font-semibold  text-center text-white">
@@ -204,7 +239,7 @@ const ExploreMenu = () => {
                 </CardActions>
               </CardActionArea>
               {!item.isActive && (
-                <div className="w-full h-full absolute bg-black opacity-70 z-20 top-0 flex justify-center items-center lg:text-5xl text-center px-5 font-bold italic ">
+                <div className="w-full h-full absolute bg-black opacity-70 z-20 top-0 flex justify-center items-center lg:text-5xl text-center px-5 font-bold italic max-lg:text-4xl">
                   <h1 className="animate-pulse ">
                     This Item is Not Available Right Now
                   </h1>

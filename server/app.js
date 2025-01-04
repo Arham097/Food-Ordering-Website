@@ -22,9 +22,7 @@ app.use(express.urlencoded({ extended: "false" }));
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
-// app.get('/', (req, res) => {
-//   res.status(200).json({ message: 'Hello from the server side!', app: 'DineWith Hasan' });
-// });
+
 
 app.use('/api/v1/items', itemRouter);
 app.use('/api/v1/user', userRouter);

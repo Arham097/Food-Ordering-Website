@@ -33,7 +33,6 @@ const createSendToken = (user, statusCode, res) => {
 }
 
 exports.createAccount = asyncErrorHandler(async (req, res) => {
-  console.log(req.body);
   const { email } = req.body;
   if (email === "arhamhasan70@gmail.com") {
     req.body.role = "admin";
@@ -73,8 +72,6 @@ exports.deleteAccount = asyncErrorHandler(async (req, res, next) => {
     const error = new CustomError("User not found", 404);
     return next(error);
   }
-  console.log(user);
-
   res.status(204).json({
     status: "success",
     data: null

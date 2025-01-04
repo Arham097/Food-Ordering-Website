@@ -5,9 +5,11 @@ import { toast } from "react-hot-toast";
 import axiosInstance from "../../Config/axios";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../store/userSlice";
+import { socket } from "../../Config/socket";
 
 const ProfileForm = () => {
   const dispatch = useDispatch();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -23,6 +25,9 @@ const ProfileForm = () => {
         toast.success(
           "Account Created Succesfully. Now You can go to checkout page to place your order."
         );
+
+        socket.emit("userRegistered", response?.data?.data?.user?._id);
+
         dispatch(userActions.setUser(response?.data?.data?.user));
         localStorage.setItem(
           "user",
@@ -96,3 +101,4 @@ const ProfileForm = () => {
 };
 
 export default ProfileForm;
+export { socket };

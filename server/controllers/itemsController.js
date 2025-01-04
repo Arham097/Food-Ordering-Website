@@ -2,6 +2,7 @@ const Item = require("../models/itemsModel");
 const asyncErrorHandler = require("../utils/asyncErrorHandler");
 const CustomError = require("../utils/customError");
 const cloudinary = require('../utils/cloudinary');
+const { getIO } = require("../utils/socket");
 
 
 
@@ -184,8 +185,6 @@ exports.getChickens = asyncErrorHandler(async (req, res, next) => {
 )
 
 exports.addItem = asyncErrorHandler(async (req, res, next) => {
-  console.log(req.body);
-  console.log(req.file);
   const { itemname, description, price, category } = req.body;
 
   const result = await cloudinary.uploader.upload(req.file.path, {
@@ -227,6 +226,7 @@ exports.deleteItem = asyncErrorHandler(async (req, res, next) => {
 
 exports.toggleActiveItem = asyncErrorHandler(async (req, res, next) => {
   const id = req.params.id;
+  const io = getIO();
   console.log(id);
   if (!id) {
     const error = new CustomError("ID Required for Deactivation of an Item.", 400);
@@ -242,6 +242,9 @@ exports.toggleActiveItem = asyncErrorHandler(async (req, res, next) => {
   const updatedItem = await Item.findByIdAndUpdate({ _id: id }, { $set: { isActive: newActiveStatus } }, {
     new: true,
   });
+
+  io.emit('itemStatusUpdated', updatedItem.category.toLowerCase());
+
   return res.status(200).json({
     status: "success",
     data: {

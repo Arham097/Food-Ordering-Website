@@ -29,6 +29,7 @@ const store = configureStore({
 
 });
 
+console.log(store.getState());
 
 // Persistor for Redux Persist
 const persistor = persistStore(store);

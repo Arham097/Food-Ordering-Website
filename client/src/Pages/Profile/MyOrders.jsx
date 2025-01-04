@@ -3,116 +3,12 @@ import axiosInstance from "../../Config/axios";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { bagActions } from "../../store/bagSlice";
+import { socket } from "../../Config/socket";
 
 const MyOrders = () => {
   const dispatch = useDispatch();
   const [orders, setOrders] = useState([]);
-  // const orders = [
-  //   {
-  //     customerDetails: {
-  //       fullname: "Arham",
-  //       address: "L-1608, Sector 1, Shadabad, Surjani Town.",
-  //       email: "arhamhasan70@gmail.com",
-  //       phone: "03102647209",
-  //       paymentMethod: "Cash on Delivery",
-  //     },
-  //     orderDetails: {
-  //       items: [
-  //         {
-  //           item: {
-  //             _id: "672c8a86169e950a16de345d",
-  //             image: "./Pizzas/fajita.jpg",
-  //             price: 1400,
-  //             name: "Fajita Pizza",
-  //             description:
-  //               "A spicy twist with Mexican flavors, topped with grilled fajita chicken or beef, bell peppers, onions, and jalapeños.",
-  //             category: "Pizzas",
-  //           },
-  //           quantity: 1,
-  //           _id: "6768351a2c8958a9172d5652",
-  //         },
-  //         {
-  //           item: {
-  //             _id: "672c8a86169e950a16de345e",
-  //             image: "./Pizzas/pepperoni.jpg",
-  //             price: 1450,
-  //             name: "Pepperoni Pizza",
-  //             description:
-  //               "A classic pizza with thin slices of spicy pepperoni, mozzarella cheese, and a rich tomato sauce.",
-  //             category: "Pizzas",
-  //           },
-  //           quantity: 1,
-  //           _id: "6768351a2c8958a9172d5653",
-  //         },
-  //       ],
-  //       totalAmount: 2850,
-  //       status: "Pending",
-  //       orderDate: "2024-12-22T15:49:46.651Z",
-  //     },
-  //     _id: "6768351a2c8958a9172d5651",
-  //     user: "676834f02c8958a9172d5647",
-  //     __v: 0,
-  //   },
-  //   {
-  //     customerDetails: {
-  //       fullname: "Arham",
-  //       address: "L-1608, Sector 1, Shadabad, Surjani Town.",
-  //       email: "arhamhasan70@gmail.com",
-  //       phone: "03102647209",
-  //       paymentMethod: "Cash on Delivery",
-  //     },
-  //     orderDetails: {
-  //       items: [
-  //         {
-  //           item: {
-  //             _id: "672c8a86169e950a16de345d",
-  //             image: "./Pizzas/fajita.jpg",
-  //             price: 1400,
-  //             name: "Fajita Pizza",
-  //             description:
-  //               "A spicy twist with Mexican flavors, topped with grilled fajita chicken or beef, bell peppers, onions, and jalapeños.",
-  //             category: "Pizzas",
-  //           },
-  //           quantity: 1,
-  //           _id: "6768351a2c8958a9172d5652",
-  //         },
-  //         {
-  //           item: {
-  //             _id: "672c8a86169e950a16de345e",
-  //             image: "./Pizzas/pepperoni.jpg",
-  //             price: 1450,
-  //             name: "Pepperoni Pizza",
-  //             description:
-  //               "A classic pizza with thin slices of spicy pepperoni, mozzarella cheese, and a rich tomato sauce.",
-  //             category: "Pizzas",
-  //           },
-  //           quantity: 1,
-  //           _id: "6768351a2c8958a9172d5653",
-  //         },
-  //         {
-  //           item: {
-  //             _id: "672c8a86169e950a16de345e",
-  //             image: "./Pizzas/pepperoni.jpg",
-  //             price: 1450,
-  //             name: "Pepperoni Pizza",
-  //             description:
-  //               "A classic pizza with thin slices of spicy pepperoni, mozzarella cheese, and a rich tomato sauce.",
-  //             category: "Pizzas",
-  //           },
-  //           quantity: 1,
-  //           _id: "6768351a2c8958a9172d5653",
-  //         },
-  //       ],
-  //       totalAmount: 2850,
-  //       status: "Delivered",
-  //       orderDate: "2024-12-22T15:49:46.651Z",
-  //     },
-  //     _id: "6768351a2c8958a9172d5651",
-  //     user: "676834f02c8958a9172d5647",
-  //     __v: 0,
-  //   },
-  // ];
-  let orders2 = [];
+  const [updatedOrders, setUpdatedOrders] = useState([]);
 
   const user2 = useSelector((store) => store.user.user) || null;
   // const user2 = JSON.parse(localStorage.getItem("user"));
@@ -120,7 +16,16 @@ const MyOrders = () => {
     if (user2) {
       getOrders();
     }
-  }, []);
+    socket.on("orderStatusUpdated", (order) => {
+      setUpdatedOrders(order);
+      console.log("Order Updated:", order);
+    });
+
+    // Cleanup to remove the listener on unmount
+    return () => {
+      socket.off("orderStatusUpdated");
+    };
+  }, [updatedOrders]);
 
   const getOrders = async () => {
     try {
@@ -131,11 +36,7 @@ const MyOrders = () => {
       }
     } catch (error) {
       if (error.response) {
-        // Server responded with a status code other than 2xx
-        // console.log(error.response);
-        // toast.error(
-        //   `Error: ${error.response.data.message || "Something went wrong!"}`
-        // );
+        return;
       } else {
         // No response from server
         toast.error("Server unreachable. Please try again later.");
@@ -155,7 +56,7 @@ const MyOrders = () => {
             {orders.map((order, key) => {
               return (
                 <div
-                  className="w-[90%] min-h-96  bg-[#3d4141] flex flex-col items-center justify-between py-3 my-3 mb-4 rounded-lg mx-auto gap-y-3 px-2 "
+                  className="w-[90%] min-h-80  bg-[#3d4141] flex flex-col items-center justify-between py-3 my-3 mb-4 rounded-lg mx-auto gap-y-3 px-2 "
                   key={key}
                 >
                   <div className=" w-full h-1/2 sm:text-sm">

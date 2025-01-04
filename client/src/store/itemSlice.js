@@ -1,13 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const itemsSlice = createSlice({
-  name: 'items',
-  initialState: [],
+  name: "items",
+  initialState: {
+    category: "Pizzas",
+  },
   reducers: {
-    addInitialItems: (state, action) => {
-      return action.payload
-    }
-  }
+    setCategory: (state, action) => {
+      state.category = action.payload;
+    },
+  },
 });
 
 export const itemActions = itemsSlice.actions;
