@@ -13,6 +13,8 @@ const path = require('path');
 const fs = require('fs');
 
 // Security middleware
+app.set("trust proxy", 1);
+
 app.use(helmet({
   crossOriginEmbedderPolicy: false,
   contentSecurityPolicy: {
