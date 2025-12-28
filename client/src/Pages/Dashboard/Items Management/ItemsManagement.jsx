@@ -10,7 +10,7 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import textFieldSx from "../../Checkout/TestFieldSx";
+import textFieldSx from "../../Checkout/testFieldSx";
 import {
   menuPropsStyles,
   selectFieldSx,

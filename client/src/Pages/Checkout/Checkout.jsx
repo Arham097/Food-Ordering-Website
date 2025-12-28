@@ -5,7 +5,7 @@ import { TextField } from "@mui/material";
 import toast from "react-hot-toast";
 import { modalActions } from "../../store/modalSlice";
 import ConfirmationModal from "./ConfirmationModal";
-import textFieldSx from "./TestFieldSx";
+import textFieldSx from "./testFieldSx";
 import ProfileConfirmationModal from "./ProfileConfirmationModal";
 import axiosInstance from "../../Config/axios";
 
