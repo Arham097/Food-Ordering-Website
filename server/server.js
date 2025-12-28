@@ -6,8 +6,14 @@ const app = require('./app');
 const http = require('http');
 const { initializeSocket } = require('./utils/socket');
 
+// Set NODE_ENV to production if not set
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = 'production';
+}
 
-mongoose.connect('mongodb+srv://admin:arham097@practice.8z2ajfw.mongodb.net/DineWithHasan', {
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://admin:arham097@practice.8z2ajfw.mongodb.net/DineWithHasan';
+
+mongoose.connect(MONGODB_URI, {
 })
 
   .then(() => {
