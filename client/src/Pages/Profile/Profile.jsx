@@ -9,7 +9,6 @@ import MyOrders from "./MyOrders";
 import MyAccount from "./MyAccount";
 import { PiBagSimpleBold } from "react-icons/pi";
 import { IoPersonOutline } from "react-icons/io5";
-import { orange } from "@mui/material/colors";
 
 const Profile = () => {
   const [myOrders, setMyOrders] = useState(true);

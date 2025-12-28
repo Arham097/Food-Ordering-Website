@@ -68,6 +68,7 @@ const MyAccount = () => {
     dispatch(modalActions.openProfileDeleteModal());
   };
 
+  const isAdmin = user?.role === "admin";
   return (
     <div className="w-full min-h-[90vh] flex flex-col lg:mt-6">
       <div className="w-11/12 h-16 bg-[#2c2f2fce] flex items-center justify-center my-3 rounded-lg mx-auto lg:w-9/12  ">
@@ -100,8 +101,19 @@ const MyAccount = () => {
             label="Email"
             name="email"
             variant="outlined"
-            sx={textFieldSx}
+            sx={{
+              ...textFieldSx,
+              "& .MuiInputBase-input.Mui-disabled": {
+                color: "#ffffff", // White text for disabled input
+              },
+            }}
+            disabled={isAdmin}
           />
+          {isAdmin && (
+            <p className="w-full italic text-red-600 text-sm max-sm:text-xs">
+              Admins cannot change their email to retain admin privileges.
+            </p>
+          )}
           <TextField
             required
             id="outlined-basic"

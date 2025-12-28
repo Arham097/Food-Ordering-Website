@@ -52,7 +52,7 @@ const ItemCard = ({ item, fetchItems }) => {
           </h1>
         </div>
       )}
-      <div className="w-full h-1/2 sm:h-[45%] flex flex-col text-white mx-auto px-2 py-3 gap-y-2">
+      <div className="w-full h-1/2 sm:h-[45%] flex flex-col text-white mx-auto px-2 py-3 gap-y-1">
         <span className="text-lg font-semibold">{item.name}</span>
         <span className="text-sm max-sm:line-clamp-3 sm:line-clamp-4">
           {item.description}

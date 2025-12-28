@@ -28,6 +28,7 @@ const textFieldSx = {
   },
   marginTop: "1rem",
   width: "100%",
+
 };
 
 export default textFieldSx;

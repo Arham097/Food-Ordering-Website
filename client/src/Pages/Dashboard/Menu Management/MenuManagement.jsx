@@ -14,7 +14,6 @@ const MenuManagement = () => {
   const dipatch = useDispatch();
   const { setLoadingTrue, setLoadingFalse } = loaderActions;
   const loader = useSelector((state) => state.loader.loading);
-  console.log(loader);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -27,7 +26,6 @@ const MenuManagement = () => {
       reader.readAsDataURL(file);
     }
   };
-  // console.log(previewImage);
   const handleDelete = () => {
     setPreviewImage(null);
     setFile(null);

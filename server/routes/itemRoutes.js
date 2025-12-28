@@ -23,7 +23,7 @@ router.route('/pizzas')
 router.route('/drinks')
   .get(itemsController.getDrinks);
 
-router.route('/chickens')
+router.route('/chicken')
   .get(itemsController.getChickens);
 
 router.post('/add', upload.single("item_image"), itemsController.addItem);

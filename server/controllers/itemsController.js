@@ -1,8 +1,8 @@
 const Item = require("../models/itemsModel");
 const asyncErrorHandler = require("../utils/asyncErrorHandler");
 const CustomError = require("../utils/customError");
-const cloudinary = require('../utils/cloudinary');
 const { getIO } = require("../utils/socket");
+const cloudinary = require('../utils/cloudinary');
 
 
 
@@ -82,9 +82,7 @@ exports.getSortedItems = asyncErrorHandler(async (req, res, next) => {
 
 exports.editItem = asyncErrorHandler(async (req, res, next) => {
   const id = req.params.id;
-  console.log(id);
   const { itemname, description, price } = req.body;
-  console.log(req.body);
 
   if (!id) {
     return next(new CustomError("ID Required for Editing an Item.", 400));
@@ -94,6 +92,7 @@ exports.editItem = asyncErrorHandler(async (req, res, next) => {
   if (!item) {
     return next(new CustomError("No Items Found with this ID", 404));
   }
+  const io = getIO();
 
   let updatedData = { name: itemname, description, price };
 
@@ -113,6 +112,8 @@ exports.editItem = asyncErrorHandler(async (req, res, next) => {
     new: true,
     runValidators: true,
   });
+
+  io.emit("ItemEdited", updatedItem.category.toLowerCase());
 
   res.status(200).json({
     status: "success",
@@ -186,6 +187,8 @@ exports.getChickens = asyncErrorHandler(async (req, res, next) => {
 
 exports.addItem = asyncErrorHandler(async (req, res, next) => {
   const { itemname, description, price, category } = req.body;
+  console.log(req.body);
+  const io = getIO();
 
   const result = await cloudinary.uploader.upload(req.file.path, {
     public_id: `Hasan Bites/${itemname}`,
@@ -196,27 +199,33 @@ exports.addItem = asyncErrorHandler(async (req, res, next) => {
 
   const item = await Item.create({ image, price, name: itemname, description, category });
 
+  io.emit("ItemAdded", item.category.toLowerCase());
+
   res.status(201).json({
     status: "success",
     data: {
       item
     }
   })
-
 });
 
 exports.deleteItem = asyncErrorHandler(async (req, res, next) => {
   const id = req.params.id;
+  const io = getIO();
   console.log(id);
   if (!id) {
     const error = new CustomError("ID Required for Deletion of an Item.", 400);
     return next(error);
   }
+
+
   const item = await Item.findByIdAndUpdate({ _id: id }, { isDeleted: true });
   if (!item) {
     const error = new CustomError("No Items Found with this ID", 404);
     return next(error);
   }
+
+  io.emit("ItemDeleted", item.category.toLowerCase());
 
   return res.status(204).json({
     status: "success",

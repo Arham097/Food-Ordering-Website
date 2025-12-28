@@ -24,7 +24,7 @@ const ItemsManagement = () => {
   const [items, setItems] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [category, setCategory] = useState("Select Category");
-  const dipatch = useDispatch();
+  const dispatch = useDispatch();
   const { setLoadingTrue, setLoadingFalse } = loaderActions;
   const loader = useSelector((state) => state.loader.loading);
 
@@ -63,7 +63,7 @@ const ItemsManagement = () => {
       toast.error("Please select a category");
       return;
     }
-    dipatch(setLoadingTrue());
+    dispatch(setLoadingTrue());
     e.preventDefault();
     const formData = new FormData(e.target);
     try {
@@ -76,7 +76,7 @@ const ItemsManagement = () => {
         toast.success("Item Added Successfully");
         setIsModalOpen(false);
         fetchItems();
-        dipatch(setLoadingFalse());
+        dispatch(setLoadingFalse());
       }
     } catch (err) {
       if (err.response) {
@@ -86,6 +86,8 @@ const ItemsManagement = () => {
       } else {
         toast.error("Server unreachable. Try Again Later.");
       }
+    } finally {
+      dispatch(setLoadingFalse());
     }
   };
   return (

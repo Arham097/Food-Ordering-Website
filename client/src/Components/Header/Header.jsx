@@ -108,35 +108,55 @@ const Header = () => {
 
       {/* Conditionally Rendered Div */}
       {toggle && (
-        <div className="w-full bg-[#2C2F2F] flex flex-col transition-all duration-1000 ease-in-out sm:hidden mt-14">
+        <div className="w-full bg-[#2C2F2F] flex flex-col transition-all duration-1000 ease-in-out sm:hidden mt-14 fixed top-0 z-40">
           <nav>
             {user.role === "admin" ? (
               <ul
-                className="flex flex-col gap-y-2 font-bold py-3 text-white "
+                className="flex flex-col gap-y-2 font-bold py-3 text-white flex-1"
                 ref={headerLinks}
               >
-                <li className="hover:text-slate-500 border-b-2 px-7 py-3">
-                  <Link to="/" onClick={toggleMenu}>
+                <li className="hover:text-orange-500 border-b-2 px-7 py-3 w-full hover:bg-[#1E2021]">
+                  <Link
+                    to="/"
+                    onClick={toggleMenu}
+                    className="w-full h-full block"
+                  >
                     Home
                   </Link>
                 </li>
-                <li className="hover:text-slate-500 border-b-2 px-7 py-3">
-                  <Link to="/menu" onClick={toggleMenu}>
+                <li className="hover:text-orange-500 border-b-2 px-7 py-3">
+                  <Link
+                    to="/menu"
+                    onClick={toggleMenu}
+                    className="w-full h-full block"
+                  >
                     Menu
                   </Link>
                 </li>
-                <li className="hover:text-slate-500 border-b-2  px-7 py-3">
-                  <Link to="/profile" onClick={toggleMenu}>
+                <li className="hover:text-orange-500 border-b-2  px-7 py-3">
+                  <Link
+                    to="/profile"
+                    onClick={toggleMenu}
+                    className="w-full h-full block"
+                  >
                     Profile
                   </Link>
                 </li>
-                <li className="hover:text-slate-500 border-b-2  px-7 py-3">
-                  <Link to="/dashboard" onClick={toggleMenu}>
+                <li className="hover:text-orange-500 border-b-2  px-7 py-3">
+                  <Link
+                    to="/dashboard"
+                    onClick={toggleMenu}
+                    className="w-full h-full block"
+                  >
                     Dashboard
                   </Link>
                 </li>
-                <li className="hover:text-slate-500  px-7 py-3">
-                  <Link to="/cart" onClick={toggleMenu}>
+                <li className="hover:text-orange-500  px-7 py-3">
+                  <Link
+                    to="/cart"
+                    onClick={toggleMenu}
+                    className="w-full h-full block"
+                  >
                     Cart
                   </Link>
                 </li>
@@ -146,23 +166,39 @@ const Header = () => {
                 className="flex flex-col gap-y-2 font-bold py-3 text-white "
                 ref={headerLinks}
               >
-                <li className="hover:text-slate-500 border-b-2 px-7 py-3">
-                  <Link to="/" onClick={toggleMenu}>
+                <li className="hover:text-orange-500 border-b-2 px-7 py-3">
+                  <Link
+                    to="/"
+                    onClick={toggleMenu}
+                    className="w-full h-full block"
+                  >
                     Home
                   </Link>
                 </li>
-                <li className="hover:text-slate-500 border-b-2 px-7 py-3">
-                  <Link to="/menu" onClick={toggleMenu}>
+                <li className="hover:text-orange-500 border-b-2 px-7 py-3">
+                  <Link
+                    to="/menu"
+                    onClick={toggleMenu}
+                    className="w-full h-full block"
+                  >
                     Menu
                   </Link>
                 </li>
-                <li className="hover:text-slate-500 border-b-2  px-7 py-3">
-                  <Link to="/profile" onClick={toggleMenu}>
+                <li className="hover:text-orange-500 border-b-2  px-7 py-3">
+                  <Link
+                    to="/profile"
+                    onClick={toggleMenu}
+                    className="w-full h-full block"
+                  >
                     Profile
                   </Link>
                 </li>
-                <li className="hover:text-slate-500  px-7 py-3">
-                  <Link to="/cart" onClick={toggleMenu}>
+                <li className="hover:text-orange-500  px-7 py-3">
+                  <Link
+                    to="/cart"
+                    onClick={toggleMenu}
+                    className="w-full h-full block"
+                  >
                     Cart
                   </Link>
                 </li>

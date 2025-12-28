@@ -22,9 +22,15 @@ const ProfileForm = () => {
         },
       });
       if (response.status === 201) {
-        toast.success(
-          "Account Created Succesfully. Now You can go to checkout page to place your order."
-        );
+        if (response?.data?.data?.user?.role === "admin") {
+          toast.success(
+            "Welcome to Admin Account. Now You can go to dashboard to manage items, orders and menus ."
+          );
+        } else {
+          toast.success(
+            "Account Created Succesfully. Now You can go to checkout page to place your order."
+          );
+        }
 
         socket.emit("userRegistered", response?.data?.data?.user?._id);
 

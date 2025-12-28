@@ -1,12 +1,13 @@
-const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+dotenv.config();
+
+const mongoose = require('mongoose');
 const app = require('./app');
 const http = require('http');
 const { initializeSocket } = require('./utils/socket');
 
-dotenv.config({ path: "./config/.env" });
 
-mongoose.connect('mongodb://127.0.0.1:27017/DineWithHasan', {
+mongoose.connect('mongodb+srv://admin:arham097@practice.8z2ajfw.mongodb.net/DineWithHasan', {
 })
 
   .then(() => {
@@ -15,9 +16,12 @@ mongoose.connect('mongodb://127.0.0.1:27017/DineWithHasan', {
     console.log('DB connection failed!', err);
   });
 
+
+
 const port = process.env.PORT || 3000;
 
 const server = http.createServer(app);
+
 
 initializeSocket(server);
 

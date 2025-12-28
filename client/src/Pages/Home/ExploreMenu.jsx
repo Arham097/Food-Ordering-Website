@@ -23,77 +23,52 @@ import { itemActions } from "../../store/itemSlice.js";
 gsap.registerPlugin(ScrollTrigger);
 
 const ExploreMenu = () => {
-  const [category, setCategory] = useState("");
-  const [burgerCards, setBurgerCards] = useState([]);
-  const [pizzaCards, setPizzaCards] = useState([]);
-  const [drinkCards, setDrinkCards] = useState([]);
-  const [chickenCards, setChickenCards] = useState([]);
   const [categoryCard, setCategoryCard] = useState([]);
   const categoryItemsContainer = useRef(null);
-  const [index, setIndex] = useState(0);
+  // const [index, setIndex] = useState(0);
   const dispatch = useDispatch();
   const savedCategory = useSelector((store) => store.items.category);
 
   useEffect(() => {
-    setCategory(savedCategory);
-    getItems();
-    socket.on("itemStatusUpdated", (itemCategory) => {
-      fetchCategoryItems(itemCategory);
-    });
-    return () => {
-      socket.off("itemStatusUpdated");
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/items/${savedCategory.toLowerCase()}`
+        );
+        if (response.status === 200) {
+          setCategoryCard(response.data.data[savedCategory.toLowerCase()]);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     };
-  }, []);
 
-  const fetchCategoryItems = async (itemCategory) => {
-    try {
-      const response = await axiosInstance.get(`/items/${itemCategory}`);
-      if (response.status === 200) {
-        setCategoryCard(response.data.data[itemCategory]);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    fetchData();
 
-  const getItems = async () => {
-    try {
-      const burgers = await axiosInstance.get("/items/burgers");
-      const pizzas = await axiosInstance.get("/items/pizzas");
-      const drinks = await axiosInstance.get("/items/drinks");
-      const chickens = await axiosInstance.get("/items/chickens");
-      setBurgerCards(burgers?.data?.data?.burgers);
-      setPizzaCards(pizzas?.data?.data?.pizzas);
-      setDrinkCards(drinks?.data?.data?.drinks);
-      setChickenCards(chickens?.data?.data?.chicken);
-      setCategoryCard(pizzas?.data?.data?.pizzas);
+    const updateCategory = (itemCategory) => {
+      if (itemCategory.toLowerCase() === savedCategory.toLowerCase()) {
+        fetchData();
+      }
+    };
 
-      if (savedCategory === "Burgers") {
-        setCategoryCard(burgers?.data?.data?.burgers);
-        setIndex(1);
-      }
-      if (savedCategory === "Drinks") {
-        setCategoryCard(drinks?.data?.data?.drinks);
-        setIndex(2);
-      }
-      if (savedCategory === "Chicken") {
-        setCategoryCard(chickens?.data?.data?.chicken);
-        setIndex(3);
-      }
-      if (savedCategory === "Pizzas") {
-        setCategoryCard(pizzas?.data?.data?.pizzas);
-        setIndex(0);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    socket.on("itemStatusUpdated", updateCategory);
+    socket.on("ItemAdded", updateCategory);
+    socket.on("ItemDeleted", updateCategory);
+    socket.on("ItemEdited", updateCategory);
+
+    return () => {
+      socket.off("itemStatusUpdated", updateCategory);
+      socket.off("ItemAdded", updateCategory);
+      socket.off("ItemDeleted", updateCategory);
+      socket.off("ItemEdited", updateCategory);
+    };
+  }, [savedCategory]);
 
   const handleItems = (item) => {
     dispatch(bagActions.addItems(item));
   };
 
-  const arr = [
+  const categoryArray = [
     {
       id: 1,
       src: "./Categories/pizza2.png",
@@ -120,27 +95,10 @@ const ExploreMenu = () => {
     },
   ];
 
-  const handleCategory = (category, index) => {
-    setCategory(category);
+  const handleCategory = (category) => {
     dispatch(itemActions.setCategory(category));
-    setIndex(index);
-    switch (category) {
-      case "Pizzas":
-        setCategoryCard(pizzaCards);
-        break;
-      case "Burgers":
-        setCategoryCard(burgerCards);
-        break;
-      case "Drinks":
-        setCategoryCard(drinkCards);
-        break;
-      case "Chicken":
-        setCategoryCard(chickenCards);
-        break;
-      default:
-        setCategoryCard(pizzaCards);
-    }
   };
+
   useGSAP(() => {
     gsap.from(categoryItemsContainer.current, {
       opacity: 0,
@@ -149,20 +107,21 @@ const ExploreMenu = () => {
       ease: "power4.out",
     });
   }, [savedCategory]);
+
   return (
     <div className="flex flex-col gap-6 overflow-hidden">
       <h1 className="max-sm:text-2xl sm:text-3xl md:text-4xl font-semibold  text-center text-white">
         Tasty Meals at Reasonable Prices
       </h1>
       <div className="w-full h-32 grid grid-cols-4 pl-10">
-        {arr.map((item, index) => {
+        {categoryArray.map((item, index) => {
           return (
             <div
               className={`h-full w-10/12 flex flex-col justify-center items-center border-2 cursor-pointer ${
-                category === item.title ? "bg-orange-600" : "bg-[#2c2f2f]"
+                savedCategory === item.title ? "bg-orange-600" : "bg-[#2c2f2f]"
               } border-slate-600`}
               key={index}
-              onClick={() => handleCategory(item.title, index)}
+              onClick={() => handleCategory(item.title)}
             >
               <img
                 src={item.src}
