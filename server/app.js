@@ -12,21 +12,31 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 
+
+
+// Simplified helmet configuration for better compatibility
+if (process.env.NODE_ENV === 'production') {
+  app.use(helmet({
+    crossOriginEmbedderPolicy: false,
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        connectSrc: ["'self'", "https://api.cloudinary.com", "wss:", "ws:", process.env.FRONTEND_URL],
+        imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
+        scriptSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"]
+      }
+    }
+  }));
+} else {
+  // More permissive helmet for development
+  app.use(helmet({
+    crossOriginEmbedderPolicy: false,
+    contentSecurityPolicy: false // Disable CSP in development
+  }));
+}
 // Security middleware
 app.set("trust proxy", 1);
-
-app.use(helmet({
-  crossOriginEmbedderPolicy: false,
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      connectSrc: ["'self'", "https://api.cloudinary.com", "wss:", "ws:"],
-      imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
-      scriptSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"]
-    }
-  }
-}));
 
 // Rate limiting
 const limiter = rateLimit({
@@ -50,24 +60,28 @@ const authLimiter = rateLimit({
 
 // CORS configuration for production and development
 const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or Postman)
-    if (!origin) return callback(null, true);
-    
-    const allowedOrigins = [
-      'http://localhost:5173',
-      'http://localhost:3001',
-      process.env.FRONTEND_URL // Add your production frontend URL here
-    ].filter(Boolean); // Remove undefined values
-    
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: process.env.NODE_ENV === 'production' 
+    ? function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or Postman)
+        if (!origin) return callback(null, true);
+        
+        const allowedOrigins = [
+          'http://localhost:5173',
+          'http://localhost:3001',
+          process.env.FRONTEND_URL
+        ].filter(Boolean);
+        
+        if (allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      }
+    : true, // Allow all origins in development
   credentials: true,
-  optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+  optionsSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
 };
 
 app.use(cors(corsOptions));
