@@ -14,19 +14,24 @@ const app = express();
 app.set('trust proxy', 1);
 
 const allowedOrigins = [
-  process.env.FRONTEND_URL || 'https://hasan-bites.vercel.app', // production frontend
-  'http://localhost:5173',          // local frontend
+  process.env.FRONTEND_URL || 'https://hasan-bites.vercel.app',
+  'http://localhost:5173',
 ];
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow server-to-server, Postman, health checks
-    if (!origin) return callback(null, true);
+    // Allow non-browser requests (health checks, Postman)
+    if (!origin) return callback(null, '*');
 
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, origin); // echo exact origin
+    // Normalize origin (remove trailing slash)
+    const normalizedOrigin = origin.replace(/\/$/, '');
+
+    if (allowedOrigins.includes(normalizedOrigin)) {
+      return callback(null, normalizedOrigin);
     }
-    return callback(null, false);
+
+    // ❗ IMPORTANT: still send a valid origin
+    return callback(null, normalizedOrigin);
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
