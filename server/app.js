@@ -1,7 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
 const app = express();
 const globalErrorHandler = require('./controllers/errorController');
 const itemRouter = require('./routes/itemRoutes');
@@ -9,42 +8,22 @@ const userRouter = require('./routes/userRoutes');
 const orderRouter = require('./routes/orderRoutes');
 const menuRouter = require('./routes/menuRoutes');
 const cors = require('cors');
-const path = require('path');
-const fs = require('fs');
 
 
-
-// Simplified helmet configuration for better compatibility
-app.use(helmet());
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP, please try again later.',
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-
-// Apply rate limiting to all requests
-app.use('/api/', limiter);
-
-// Stricter rate limiting for auth endpoints
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // limit each IP to 5 auth requests per windowMs
-  message: 'Too many authentication attempts, please try again later.',
-  skipSuccessfulRequests: true,
-});
-
-// CORS configuration for production and development
-
-app.use(cors({
-  origin: "*",
-  credentials: true,
-  optionsSuccessStatus: 200,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
+// Security middleware - very permissive for development
+app.use(helmet({
+  crossOriginEmbedderPolicy: false,
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  contentSecurityPolicy: false
 }));
+
+// CORS - allow all origins for maximum compatibility
+app.use(cors(
+  {
+    origin: '*',
+    credentials: true,
+  }
+));
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: false, limit: '10mb' }));
@@ -74,7 +53,7 @@ app.get('/', (req, res) => {
 
 
 app.use('/api/v1/items', itemRouter);
-app.use('/api/v1/user', authLimiter, userRouter);
+app.use('/api/v1/user', userRouter);
 app.use('/api/v1/order', orderRouter);
 app.use('/api/v1/menu', menuRouter);
 
